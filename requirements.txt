@@ -1,0 +1,14 @@
+astroid==1.4.7
+click==6.6
+isort==4.2.5
+lazy-object-proxy==1.2.2
+mccabe==0.5.0
+mondo-python==0.1.0
+ordereddict==1.1
+py==1.4.31
+pylint==1.6.4
+pytest==2.9.2
+python-dotenv==0.5.1
+requests==2.10.0
+six==1.10.0
+wrapt==1.10.8

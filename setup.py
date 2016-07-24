@@ -1,4 +1,4 @@
-from setuptools import setup
+from distutils.core import setup
 
 setup(name='mondo-python',
       version='0.1.0',
@@ -12,4 +12,4 @@ setup(name='mondo-python',
           'requests',
           'python-dotenv'
       ],
-      )     
+      )
