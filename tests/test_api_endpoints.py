@@ -12,28 +12,41 @@ class TestApiEndpoints:
         assert whoami['authenticated']
 
     def test_get_accounts(self, client):
-        with pytest.raises(NotImplementedError):
-            client.get_accounts()
+        accounts = client.get_accounts()
+        assert accounts['accounts'] is not None
 
     def test_get_transactions(self, client):
-        with pytest.raises(NotImplementedError):
-            client.get_transactions(account_id=1)
+        account_id = client.get_first_account()['id']
+        transactions = client.get_transactions(account_id)
+        assert transactions['transactions'] is not None
 
     def test_get_balance(self, client):
-        with pytest.raises(NotImplementedError):
-            client.get_balance(account_id=1)
+        account_id = client.get_first_account()['id']
+        balance = client.get_balance(account_id)
+        assert balance['balance'] is not None
 
     def test_get_webhooks(self, client):
-        with pytest.raises(NotImplementedError):
-            client.get_webhooks(account_id=1)
+        account_id = client.get_first_account()['id']
+        webhooks = client.get_webhooks(account_id)
+        assert webhooks['webhooks'] is not None
 
     def test_delete_webhook(self, client):
-        with pytest.raises(NotImplementedError):
-            client.delete_webhook(webhook_id=1)
+        account_id = client.get_first_account()['id']
+        client.register_webhook(webhook_url='https://google.co.uk', account_id=account_id)
+        webhooks = client.get_webhooks(account_id)
+        webhook_count = len(webhooks['webhooks'])
+        webhook_id = client.get_first_webhook(account_id)['id']
+        client.delete_webhook(webhook_id)
+        new_webhooks = client.get_webhooks(account_id)
+        new_webhooks_count = len(new_webhooks['webhooks'])
+        assert new_webhooks_count == webhook_count - 1
 
     def test_register_webhook(self, client):
-        with pytest.raises(NotImplementedError):
-            client.register_webhook(url='https://google.co.uk')
+        account_id = client.get_first_account()['id']
+        client.register_webhook(webhook_url='https://google.co.uk', account_id=account_id)
+        webhooks = client.get_webhooks(account_id)
+        webhook_in_webhooks = [w for w in webhooks['webhooks'] if w['url'] == 'https://google.co.uk']
+        assert len(webhook_in_webhooks) > 0
 
     def test_attach_image_to_transaction(self, client):
         with pytest.raises(NotImplementedError):
