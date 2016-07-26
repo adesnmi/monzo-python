@@ -61,6 +61,13 @@ class Mondo(object):
         response = requests.delete(url, headers=self.headers)
         return response.json()
 
+    def delete_all_webhooks(self):
+        first_account = self.get_first_account()
+        account_id = first_account['id']
+        webhooks = self.get_webhooks(account_id)
+        for webhook in webhooks['webhooks']:
+            self.delete_webhook(webhook['id'])
+
     def register_webhook(self, webhook_url, account_id):
         """Registers a webhook."""
         url = "{0}/webhooks".format(self.API_URL)

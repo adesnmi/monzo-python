@@ -40,6 +40,7 @@ class TestApiEndpoints:
         new_webhooks = client.get_webhooks(account_id)
         new_webhooks_count = len(new_webhooks['webhooks'])
         assert new_webhooks_count == webhook_count - 1
+        client.delete_all_webhooks()
 
     def test_register_webhook(self, client):
         account_id = client.get_first_account()['id']
@@ -47,6 +48,8 @@ class TestApiEndpoints:
         webhooks = client.get_webhooks(account_id)
         webhook_in_webhooks = [w for w in webhooks['webhooks'] if w['url'] == 'https://google.co.uk']
         assert len(webhook_in_webhooks) > 0
+        client.delete_all_webhooks()
+
 
     def test_attach_image_to_transaction(self, client):
         with pytest.raises(NotImplementedError):
