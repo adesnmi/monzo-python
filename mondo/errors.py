@@ -1,3 +1,7 @@
+"""
+The module that represents each possible Mondo API error; documented at:
+https://getmondo.co.uk/docs/#errors as individual Python errors.
+"""
 class BadRequestError(Exception):
     """An error to be raised when a request has missing arguments or is malformed."""
 
