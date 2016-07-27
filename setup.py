@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='mondo-python',
-      version='0.3.1',
+      version='0.3.2',
       description='A python SDK for interacting with the Mondo API.',
       url='https://github.com/muyiwaolu/mondo-python',
       author='Muyiwa Olu-Ogunleye',
