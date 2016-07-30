@@ -1,5 +1,5 @@
 """A wrapper around the official Mondo API endpoints."""
-from mondo.request import Request
+from .request import Request
 
 class Mondo(object):
     """The class representation of Mondo's API endpoints."""
