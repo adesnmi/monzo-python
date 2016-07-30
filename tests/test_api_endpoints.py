@@ -51,14 +51,18 @@ class TestApiEndpoints:
         client.delete_all_webhooks()
 
 
-    def test_attach_image_to_transaction(self, client):
+    def test_register_and_remove_attachment(self, client):
         account_id = client.get_first_account()['id']
         transactions = client.get_transactions(account_id)
         first_transaction_id = transactions['transactions'][0]['id']
-        image_attachment = client.attach_image_to_transaction(transaction_id=first_transaction_id,
+        image_attachment = client.register_attachment(transaction_id=first_transaction_id,
                                            file_url='http://www.nyan.cat/cats/original.gif',
                                            file_type='image/gif')
-        assert image_attachment['attachment']['id'] is not None
+        attachment_id = image_attachment['attachment']['id']
+        assert attachment_id is not None
+        deregistered_attachment_response = client.deregister_attachment(attachment_id)
+        assert deregistered_attachment_response is not None
+
 
     def test_create_feed_item(self, client):
         account_id = client.get_first_account()['id']

@@ -74,7 +74,7 @@ class Mondo(object):
         url = "{0}/webhooks".format(self.API_URL)
         response = self.request.post(url, headers=self.headers, data={'account_id': account_id, 'url': webhook_url})
 
-    def attach_image_to_transaction(self, transaction_id, file_url, file_type):
+    def register_attachment(self, transaction_id, file_url, file_type):
         """Attaches an image to a transaction."""
         url = "{0}/attachment/register".format(self.API_URL)
         response = self.request.post(url,
@@ -83,6 +83,13 @@ class Mondo(object):
                                           'file_url': file_url,
                                           'file_type': file_type})
         return response
+
+    def deregister_attachment(self, attachment_id):
+        """Removed a previously attached image from a transaction."""
+        url = "{0}/attachment/deregister".format(self.API_URL)
+        response = self.request.post(url, headers=self.headers, data={'id': attachment_id})
+        return response
+
 
     def create_feed_item(self, account_id, feed_type, url, params):
         """Creates a feed item."""
