@@ -52,8 +52,13 @@ class TestApiEndpoints:
 
 
     def test_attach_image_to_transaction(self, client):
-        with pytest.raises(NotImplementedError):
-            client.attach_image_to_transaction(file_url='test', file_type='test')
+        account_id = client.get_first_account()['id']
+        transactions = client.get_transactions(account_id)
+        first_transaction_id = transactions['transactions'][0]['id']
+        image_attachment = client.attach_image_to_transaction(transaction_id=first_transaction_id,
+                                           file_url='http://www.nyan.cat/cats/original.gif',
+                                           file_type='image/gif')
+        assert image_attachment['attachment']['id'] is not None
 
     def test_create_feed_item(self, client):
         with pytest.raises(NotImplementedError):
