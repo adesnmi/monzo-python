@@ -61,6 +61,12 @@ class TestApiEndpoints:
         assert image_attachment['attachment']['id'] is not None
 
     def test_create_feed_item(self, client):
-        with pytest.raises(NotImplementedError):
-            client.create_feed_item(account_id=1, feed_type='basic',
-                                    url='https://google.co.uk', params=[])
+        account_id = client.get_first_account()['id']
+        params = {'title': 'Python Testing :D',
+                  'body': 'Is this real life?',
+                  'image_url': 'http://www.nyan.cat/cats/original.gif'}
+        feed_item = client.create_feed_item(account_id=account_id,
+                                            feed_type='basic',
+                                            url='http://www.nyan.cat/',
+                                            params=params)
+        assert feed_item is not None

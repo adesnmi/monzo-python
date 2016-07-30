@@ -86,4 +86,17 @@ class Mondo(object):
 
     def create_feed_item(self, account_id, feed_type, url, params):
         """Creates a feed item."""
-        raise NotImplementedError()
+        url = "{0}/feed".format(self.API_URL)
+        data = {
+            'account_id': account_id,
+            'type': feed_type,
+            'url': url,
+            "params[title]": params['title'],
+            "params[image_url]": params['image_url'],
+            "params[body]": params['body']
+        }
+        response = self.request.post(url,
+                                     headers=self.headers,
+                                     data=data
+                                     )
+        return response
