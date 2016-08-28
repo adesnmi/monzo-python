@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>mondo package &#8212; Monzo Python 0.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Monzo Python 0.4.1 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to Monzo Python’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mondo-package">
+<h1>mondo package<a class="headerlink" href="#mondo-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-mondo.errors">
+<span id="mondo-errors-module"></span><h2>mondo.errors module<a class="headerlink" href="#module-mondo.errors" title="Permalink to this headline">¶</a></h2>
+<p>The module that represents each possible Mondo API error; documented at:
+<a class="reference external" href="https://getmondo.co.uk/docs/#errors">https://getmondo.co.uk/docs/#errors</a> as individual Python errors.</p>
+<dl class="exception">
+<dt id="mondo.errors.BadRequestError">
+<em class="property">exception </em><code class="descclassname">mondo.errors.</code><code class="descname">BadRequestError</code><a class="headerlink" href="#mondo.errors.BadRequestError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>An error to be raised when a request has missing arguments or is malformed.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="mondo.errors.ForbiddenError">
+<em class="property">exception </em><code class="descclassname">mondo.errors.</code><code class="descname">ForbiddenError</code><a class="headerlink" href="#mondo.errors.ForbiddenError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>An error to be raised when a request has insufficient permissions.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="mondo.errors.GatewayTimeoutError">
+<em class="property">exception </em><code class="descclassname">mondo.errors.</code><code class="descname">GatewayTimeoutError</code><a class="headerlink" href="#mondo.errors.GatewayTimeoutError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>A timeout has occured on Mondo&#8217;s servers.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="mondo.errors.InternalServerError">
+<em class="property">exception </em><code class="descclassname">mondo.errors.</code><code class="descname">InternalServerError</code><a class="headerlink" href="#mondo.errors.InternalServerError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>An error with Mondo&#8217;s servers.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="mondo.errors.MethodNotAllowedError">
+<em class="property">exception </em><code class="descclassname">mondo.errors.</code><code class="descname">MethodNotAllowedError</code><a class="headerlink" href="#mondo.errors.MethodNotAllowedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>An error to be raised when a request is using an incorrect HTTP verb.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="mondo.errors.NotAcceptibleError">
+<em class="property">exception </em><code class="descclassname">mondo.errors.</code><code class="descname">NotAcceptibleError</code><a class="headerlink" href="#mondo.errors.NotAcceptibleError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>An error to be raised when an application does not accept the content
+format returned according to the Accept headers sent in the request.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="mondo.errors.PageNotFoundError">
+<em class="property">exception </em><code class="descclassname">mondo.errors.</code><code class="descname">PageNotFoundError</code><a class="headerlink" href="#mondo.errors.PageNotFoundError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>An error to be raised when a request requests an endpoint that doesn&#8217;t exist.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="mondo.errors.TooManyRequestsError">
+<em class="property">exception </em><code class="descclassname">mondo.errors.</code><code class="descname">TooManyRequestsError</code><a class="headerlink" href="#mondo.errors.TooManyRequestsError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>An error to be raised when an application is exceeding its rate limit.
+Back off, buddy. :p</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="mondo.errors.UnauthorizedError">
+<em class="property">exception </em><code class="descclassname">mondo.errors.</code><code class="descname">UnauthorizedError</code><a class="headerlink" href="#mondo.errors.UnauthorizedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>An error to be raised when a request is not authenticated.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-mondo.mondo">
+<span id="mondo-mondo-module"></span><h2>mondo.mondo module<a class="headerlink" href="#module-mondo.mondo" title="Permalink to this headline">¶</a></h2>
+<p>A wrapper around the official Mondo API endpoints.</p>
+<dl class="class">
+<dt id="mondo.mondo.Mondo">
+<em class="property">class </em><code class="descclassname">mondo.mondo.</code><code class="descname">Mondo</code><span class="sig-paren">(</span><em>access_token</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The class representation of Mondo&#8217;s API endpoints.</p>
+<dl class="attribute">
+<dt id="mondo.mondo.Mondo.API_URL">
+<code class="descname">API_URL</code><em class="property"> = 'https://api.getmondo.co.uk/'</em><a class="headerlink" href="#mondo.mondo.Mondo.API_URL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.create_feed_item">
+<code class="descname">create_feed_item</code><span class="sig-paren">(</span><em>account_id</em>, <em>feed_type</em>, <em>url</em>, <em>params</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.create_feed_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a feed item.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.delete_all_webhooks">
+<code class="descname">delete_all_webhooks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.delete_all_webhooks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.delete_webhook">
+<code class="descname">delete_webhook</code><span class="sig-paren">(</span><em>webhook_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.delete_webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the a specified webhook.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.deregister_attachment">
+<code class="descname">deregister_attachment</code><span class="sig-paren">(</span><em>attachment_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.deregister_attachment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removed a previously attached image from a transaction.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.get_accounts">
+<code class="descname">get_accounts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_accounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all accounts that belong to a user.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.get_balance">
+<code class="descname">get_balance</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_balance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the balance of a given account.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.get_first_account">
+<code class="descname">get_first_account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_first_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the first account for a user.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.get_first_webhook">
+<code class="descname">get_first_webhook</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_first_webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the first webhook of a given account.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.get_transactions">
+<code class="descname">get_transactions</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_transactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all transactions of a given account.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.get_webhooks">
+<code class="descname">get_webhooks</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_webhooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the webhooks of a given account.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.register_attachment">
+<code class="descname">register_attachment</code><span class="sig-paren">(</span><em>transaction_id</em>, <em>file_url</em>, <em>file_type</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.register_attachment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attaches an image to a transaction.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.register_webhook">
+<code class="descname">register_webhook</code><span class="sig-paren">(</span><em>webhook_url</em>, <em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.register_webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a webhook.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mondo.mondo.Mondo.whoami">
+<code class="descname">whoami</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.whoami" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives information about an access token.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mondo.request">
+<span id="mondo-request-module"></span><h2>mondo.request module<a class="headerlink" href="#module-mondo.request" title="Permalink to this headline">¶</a></h2>
+<p>The module that represents any HTTP request related logic.</p>
+<dl class="class">
+<dt id="mondo.request.Request">
+<em class="property">class </em><code class="descclassname">mondo.request.</code><code class="descname">Request</code><a class="headerlink" href="#mondo.request.Request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Encapsulates the requests library with Mondo-specific validation.</p>
+<dl class="method">
+<dt id="mondo.request.Request.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><em>url</em>, <em>headers=None</em>, <em>params=None</em>, <em>data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.request.Request.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mondo.request.Request.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>url</em>, <em>headers=None</em>, <em>params=None</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.request.Request.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mondo.request.Request.post">
+<code class="descname">post</code><span class="sig-paren">(</span><em>url</em>, <em>headers=None</em>, <em>params=None</em>, <em>data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.request.Request.post" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mondo.request.Request.validate_response">
+<code class="descname">validate_response</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.request.Request.validate_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate the response and raises any appropriate errors.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mondo">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mondo" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">mondo package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-mondo.errors">mondo.errors module</a></li>
+<li><a class="reference internal" href="#module-mondo.mondo">mondo.mondo module</a></li>
+<li><a class="reference internal" href="#module-mondo.request">mondo.request module</a></li>
+<li><a class="reference internal" href="#module-mondo">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Monzo Python&#8217;s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mondo.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Muyiwa Olu-Ogunleye.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/mondo.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
