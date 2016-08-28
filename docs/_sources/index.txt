@@ -4,8 +4,10 @@ Monzo Python
 Monzo Python allows you to quickly and simply access, manipulate and
 play with our banking data. Let's get started.
 
-To install the package run (this package was built and tested with Python 3.5, your mileage
-may vary with other versions) ::
+Make sure you have `Python` and `pip` on your machine (this package was built and tested with Python 3.5, but it should work
+with 2.7, too. Your mileage may vary with other versions)
+
+To install the package run ::
 
     pip install monzo
 
@@ -25,7 +27,8 @@ Once you're done, open up a Python terminal (or create a Python file) and enter 
 Yup. That easy. To see what more you can do with the `client` variable, take a look at the `Monzo Module` section
 of the API docs linked below.
 
-If you spot any bugs or issues, please head over to the `Github repository <https://github.com/muyiwaolu/monzo-python>`_ and let us know (or even fork, and send over a pull request!)
+If you spot any bugs or issues, please head over to the `Github repository <https://github.com/muyiwaolu/monzo-python>`_ and let us know.
+The project and its source code is fully-open source under the MIT license, so you're free to fork, and send over a pull request if you want. :)
 
 
 API Docs
