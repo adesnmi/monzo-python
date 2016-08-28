@@ -1,29 +1,29 @@
-mondo package
+monzo package
 =============
 
 Submodules
 ----------
 
-Errors Module
+monzo.errors module
 -------------------
 
-.. automodule:: mondo.errors
+.. automodule:: monzo.errors
     :members:
     :undoc-members:
     :show-inheritance:
 
-Mondo Module
+monzo.monzo module
 ------------------
 
-.. automodule:: mondo.mondo
+.. automodule:: monzo.monzo
     :members:
     :undoc-members:
     :show-inheritance:
 
-Request Module
+monzo.request module
 --------------------
 
-.. automodule:: mondo.request
+.. automodule:: monzo.request
     :members:
     :undoc-members:
     :show-inheritance:
@@ -32,7 +32,7 @@ Request Module
 Module contents
 ---------------
 
-.. automodule:: mondo
+.. automodule:: monzo
     :members:
     :undoc-members:
     :show-inheritance:

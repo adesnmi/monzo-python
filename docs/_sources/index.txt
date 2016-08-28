@@ -7,30 +7,34 @@ play with our banking data. Let's get started.
 To install the package run (this package was built and tested with Python 3.5, your mileage
 may vary with other versions) ::
 
-    pip install mondo-python
+    pip install monzo
+
+If the above doesn't work, you may want to run the above command as an admin by prefixing `sudo`.
 
 Once you're done, open up a Python terminal (or create a Python file) and enter the following::
 
-    from mondo.mondo import Mondo # Import Mondo Class
+    from monzo.monzo import Monzo # Import Monzo Class
 
-    client = Mondo('access_token_goes_here') # Replace access token with a valid token found at: https://developers.getmondo.co.uk/
+    client = Monzo('access_token_goes_here') # Replace access token with a valid token found at: https://developers.getmondo.co.uk/
     account_id = client.get_first_account()['id'] # Get the ID of the first account linked to the access token
     balance = client.get_balance(account_id) # Get your balance object
     print balance['balance'] # 100000000000
     print balance['currency'] # GBP
     print balance['spend_today'] # 2000
 
-Yup. That easy. To see what more you can do with the `client` variable, take a look at the `Mondo Module` section
+Yup. That easy. To see what more you can do with the `client` variable, take a look at the `Monzo Module` section
 of the API docs linked below.
 
+If you spot any bugs or issues, please head over to the `Github repository <https://github.com/muyiwaolu/monzo-python>`_ and let us know (or even fork, and send over a pull request!)
 
-API DOCS
+
+API Docs
 =========
 
 .. toctree::
    :maxdepth: 4
 
-   mondo
+   monzo
 
 Indices and tables
 ==================

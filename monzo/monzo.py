@@ -1,14 +1,14 @@
-"""A wrapper around the official Mondo API endpoints.
+"""A wrapper around the official Monzo API endpoints.
 
-This module contains the class `Mondo` which represents a wrapper around
-HTTP calls to Mondo's API endpoints.
+This module contains the class `Monzo` which represents a wrapper around
+HTTP calls to Monzo's API endpoints.
 """
 from .request import Request
 
-class Mondo(object):
-    """The class representation of Mondo's API endpoints.
+class Monzo(object):
+    """The class representation of Monzo's API endpoints.
 
-       Please note that functions without a reference to the official Mondo API
+       Please note that functions without a reference to the official Monzo API
        docs page are convinence functions which are created - based on the official
        API functions - to make life easier for developers.
 
@@ -18,7 +18,7 @@ class Mondo(object):
        :param access_token: The access token to authorise API calls.
     """
 
-    API_URL = 'https://api.getmondo.co.uk/' #: (str): A representation of the current Mondo api url.
+    API_URL = 'https://api.monzo.com/' #: (str): A representation of the current Monzo api url.
 
     def __init__(self, access_token):
         self.access_token = access_token

@@ -1,11 +1,11 @@
-from mondo.mondo import Mondo
-from mondo.errors import UnauthorizedError
+from monzo.monzo import Monzo
+from monzo.errors import UnauthorizedError
 import pytest
 
 class TestApiErrors:
     @pytest.fixture
     def unauthorized_client(self):
-        return Mondo('gibberish')
+        return Monzo('gibberish')
 
     def test_whoami(self, unauthorized_client):
         with pytest.raises(UnauthorizedError):

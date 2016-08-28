@@ -7,7 +7,7 @@ MethodNotAllowedError, PageNotFoundError, NotAcceptibleError,TooManyRequestsErro
 InternalServerError, GatewayTimeoutError)
 
 class Request(object):
-    """Encapsulates the requests library with Mondo-specific validation."""
+    """Encapsulates the requests library with Monzo-specific validation."""
     def get(self, url, headers=None, params=None):
         """Sends a GET request to a specified URL
 

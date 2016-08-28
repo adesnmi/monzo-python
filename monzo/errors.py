@@ -1,6 +1,6 @@
 """
-The module that represents each possible Mondo API error; documented at:
-https://getmondo.co.uk/docs/#errors as individual Python errors.
+The module that represents each possible Monzo API error; documented at:
+https://monzo.co.uk/docs/#errors as individual Python errors.
 """
 class BadRequestError(Exception):
     """An error to be raised when a request has missing arguments or is malformed."""
@@ -26,7 +26,7 @@ class TooManyRequestsError(Exception):
     Back off, buddy. :p"""
 
 class InternalServerError(Exception):
-    """An error with Mondo's servers."""
+    """An error with Monzo's servers."""
 
 class GatewayTimeoutError(Exception):
-    """A timeout has occured on Mondo's servers."""
+    """A timeout has occured on Monzo's servers."""

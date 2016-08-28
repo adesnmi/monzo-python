@@ -1,11 +1,11 @@
-from mondo.mondo import Mondo
+from monzo.monzo import Monzo
 from settings import get_environment_var
 import pytest
 
 class TestApiEndpoints:
     @pytest.fixture
     def client(self):
-        return Mondo(get_environment_var('ACCESS_TOKEN'))
+        return Monzo(get_environment_var('ACCESS_TOKEN'))
 
     def test_whoami(self, client):
         whoami = client.whoami()

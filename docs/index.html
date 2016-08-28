@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Monzo Python 0.4.1 documentation" href="#" />
-    <link rel="next" title="mondo package" href="mondo.html" />
+    <link rel="next" title="monzo package" href="monzo.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -46,13 +46,14 @@
 play with our banking data. Let&#8217;s get started.</p>
 <p>To install the package run (this package was built and tested with Python 3.5, your mileage
 may vary with other versions)</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">mondo</span><span class="o">-</span><span class="n">python</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">monzo</span>
 </pre></div>
 </div>
+<p>If the above doesn&#8217;t work, you may want to run the above command as an admin by prefixing <cite>sudo</cite>.</p>
 <p>Once you&#8217;re done, open up a Python terminal (or create a Python file) and enter the following:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mondo.mondo</span> <span class="k">import</span> <span class="n">Mondo</span> <span class="c1"># Import Mondo Class</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">monzo.monzo</span> <span class="k">import</span> <span class="n">Monzo</span> <span class="c1"># Import Monzo Class</span>
 
-<span class="n">client</span> <span class="o">=</span> <span class="n">Mondo</span><span class="p">(</span><span class="s1">&#39;access_token_goes_here&#39;</span><span class="p">)</span> <span class="c1"># Replace access token with a valid token found at: https://developers.getmondo.co.uk/</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Monzo</span><span class="p">(</span><span class="s1">&#39;access_token_goes_here&#39;</span><span class="p">)</span> <span class="c1"># Replace access token with a valid token found at: https://developers.getmondo.co.uk/</span>
 <span class="n">account_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_first_account</span><span class="p">()[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="c1"># Get the ID of the first account linked to the access token</span>
 <span class="n">balance</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span> <span class="c1"># Get your balance object</span>
 <span class="nb">print</span> <span class="n">balance</span><span class="p">[</span><span class="s1">&#39;balance&#39;</span><span class="p">]</span> <span class="c1"># 100000000000</span>
@@ -60,19 +61,20 @@ may vary with other versions)</p>
 <span class="nb">print</span> <span class="n">balance</span><span class="p">[</span><span class="s1">&#39;spend_today&#39;</span><span class="p">]</span> <span class="c1"># 2000</span>
 </pre></div>
 </div>
-<p>Yup. That easy. To see what more you can do with the <cite>client</cite> variable, take a look at the <cite>Mondo Module</cite> section
+<p>Yup. That easy. To see what more you can do with the <cite>client</cite> variable, take a look at the <cite>Monzo Module</cite> section
 of the API docs linked below.</p>
+<p>If you spot any bugs or issues, please head over to the <a class="reference external" href="https://github.com/muyiwaolu/monzo-python">Github repository</a> and let us know (or even fork, and send over a pull request!)</p>
 </div>
 <div class="section" id="api-docs">
-<h1>API DOCS<a class="headerlink" href="#api-docs" title="Permalink to this headline">¶</a></h1>
+<h1>API Docs<a class="headerlink" href="#api-docs" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="mondo.html">mondo package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="mondo.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mondo.html#module-mondo.errors">Errors Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mondo.html#module-mondo.mondo">Mondo Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mondo.html#module-mondo.request">Request Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mondo.html#module-mondo">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monzo.html">monzo package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="monzo.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monzo.html#module-monzo.errors">monzo.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monzo.html#module-monzo.monzo">monzo.monzo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monzo.html#module-monzo.request">monzo.request module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="monzo.html#module-monzo">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -96,14 +98,14 @@ of the API docs linked below.</p>
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Monzo Python</a></li>
-<li><a class="reference internal" href="#api-docs">API DOCS</a></li>
+<li><a class="reference internal" href="#api-docs">API Docs</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="mondo.html" title="next chapter">mondo package</a></li>
+      <li>Next: <a href="monzo.html" title="next chapter">monzo package</a></li>
   </ul></li>
 </ul>
 </div>
