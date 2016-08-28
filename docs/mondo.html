@@ -24,7 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Monzo Python 0.4.1 documentation" href="index.html" />
-    <link rel="prev" title="Welcome to Monzo Python’s documentation!" href="index.html" />
+    <link rel="up" title="mondo" href="modules.html" />
+    <link rel="prev" title="mondo" href="modules.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -46,7 +47,7 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-mondo.errors">
-<span id="mondo-errors-module"></span><h2>mondo.errors module<a class="headerlink" href="#module-mondo.errors" title="Permalink to this headline">¶</a></h2>
+<span id="errors-module"></span><h2>Errors Module<a class="headerlink" href="#module-mondo.errors" title="Permalink to this headline">¶</a></h2>
 <p>The module that represents each possible Mondo API error; documented at:
 <a class="reference external" href="https://getmondo.co.uk/docs/#errors">https://getmondo.co.uk/docs/#errors</a> as individual Python errors.</p>
 <dl class="exception">
@@ -116,100 +117,257 @@ Back off, buddy. :p</p>
 
 </div>
 <div class="section" id="module-mondo.mondo">
-<span id="mondo-mondo-module"></span><h2>mondo.mondo module<a class="headerlink" href="#module-mondo.mondo" title="Permalink to this headline">¶</a></h2>
+<span id="mondo-module"></span><h2>Mondo Module<a class="headerlink" href="#module-mondo.mondo" title="Permalink to this headline">¶</a></h2>
 <p>A wrapper around the official Mondo API endpoints.</p>
+<p>This module contains the class <cite>Mondo</cite> which represents a wrapper around
+HTTP calls to Mondo&#8217;s API endpoints.</p>
 <dl class="class">
 <dt id="mondo.mondo.Mondo">
 <em class="property">class </em><code class="descclassname">mondo.mondo.</code><code class="descname">Mondo</code><span class="sig-paren">(</span><em>access_token</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>The class representation of Mondo&#8217;s API endpoints.</p>
+<p>Please note that functions without a reference to the official Mondo API
+docs page are convinence functions which are created - based on the official
+API functions - to make life easier for developers.</p>
+<p>e.g. <cite>get_first_account</cite> calls <cite>get_account</cite> and returns the first <cite>account</cite>
+object, if it exists.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>access_token</strong> &#8211; The access token to authorise API calls.</td>
+</tr>
+</tbody>
+</table>
 <dl class="attribute">
 <dt id="mondo.mondo.Mondo.API_URL">
 <code class="descname">API_URL</code><em class="property"> = 'https://api.getmondo.co.uk/'</em><a class="headerlink" href="#mondo.mondo.Mondo.API_URL" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>(str): A representation of the current Mondo api url.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.create_feed_item">
 <code class="descname">create_feed_item</code><span class="sig-paren">(</span><em>account_id</em>, <em>feed_type</em>, <em>url</em>, <em>params</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.create_feed_item" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a feed item.</p>
+<dd><p>Creates a feed item. (<a class="reference external" href="https://monzo.com/docs/#create-feed-item">https://monzo.com/docs/#create-feed-item</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>account_id</strong> &#8211; The unique identifier for the account to create the feed item for.</li>
+<li><strong>feed_type</strong> &#8211; The type of feed item (currently only <cite>basic</cite> is supported).</li>
+<li><strong>url</strong> &#8211; The url to open if a feed item is tapped</li>
+<li><strong>params</strong> &#8211; A map of parameters which vary based on type</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">An empty Dictionary, if the feed item creation was successful.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.delete_all_webhooks">
 <code class="descname">delete_all_webhooks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.delete_all_webhooks" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Removes all webhooks associated with the first account, if it exists.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.delete_webhook">
 <code class="descname">delete_webhook</code><span class="sig-paren">(</span><em>webhook_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.delete_webhook" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deletes the a specified webhook.</p>
+<dd><p>Deletes the a specified webhook. (<a class="reference external" href="https://monzo.com/docs/#deleting-a-webhook">https://monzo.com/docs/#deleting-a-webhook</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>webhook_id</strong> &#8211; The unique identifier for the webhook to delete.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">An empty Dictionary, if the deletion was successful.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.deregister_attachment">
 <code class="descname">deregister_attachment</code><span class="sig-paren">(</span><em>attachment_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.deregister_attachment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removed a previously attached image from a transaction.</p>
+<dd><p>Removed a previously attached image from a transaction. (<a class="reference external" href="https://monzo.com/docs/#deregister-attachment">https://monzo.com/docs/#deregister-attachment</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>transaction_id</strong> &#8211; The unique identifier for the attachment to deregister.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">An empty Dictionary, if the deregistration was successful.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.get_accounts">
 <code class="descname">get_accounts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_accounts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all accounts that belong to a user.</p>
+<dd><p>Get all accounts that belong to a user. (<a class="reference external" href="https://monzo.com/docs/#list-accounts">https://monzo.com/docs/#list-accounts</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A Collection of accounts for a user.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.get_balance">
 <code class="descname">get_balance</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_balance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the balance of a given account.</p>
+<dd><p>Gets the balance of a given account. (<a class="reference external" href="https://monzo.com/docs/#read-balance">https://monzo.com/docs/#read-balance</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>account_id</strong> &#8211; The unique identifier for the account which the balance belong to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">Dictionary representation of the current account balance.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.get_first_account">
 <code class="descname">get_first_account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_first_account" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the first account for a user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A Dictionary representation of the first account belonging to a user, if it exists.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.get_first_webhook">
 <code class="descname">get_first_webhook</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_first_webhook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the first webhook of a given account.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>account_id</strong> &#8211; The unique identifier for the account which the first webhook belong to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A Dictionary representation of the first webhook belonging to an account, if it exists.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.get_transactions">
 <code class="descname">get_transactions</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_transactions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all transactions of a given account.</p>
+<dd><p>Get all transactions of a given account. (<a class="reference external" href="https://monzo.com/docs/#list-transactions">https://monzo.com/docs/#list-transactions</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>account_id</strong> &#8211; The unique identifier for the account which the transactions belong to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A collection of transaction objects for specific user.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.get_webhooks">
 <code class="descname">get_webhooks</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.get_webhooks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the webhooks of a given account.</p>
+<dd><p>Gets the webhooks of a given account. (<a class="reference external" href="https://monzo.com/docs/#list-webhooks">https://monzo.com/docs/#list-webhooks</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>account_id</strong> &#8211; The unique identifier for the account which the webhooks belong to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A collection of webhooks that belong to an account.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.register_attachment">
 <code class="descname">register_attachment</code><span class="sig-paren">(</span><em>transaction_id</em>, <em>file_url</em>, <em>file_type</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.register_attachment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attaches an image to a transaction.</p>
+<dd><p>Attaches an image to a transaction. (<a class="reference external" href="https://monzo.com/docs/#register-attachment">https://monzo.com/docs/#register-attachment</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>transaction_id</strong> &#8211; The unique identifier for the transaction to register the attachment to.</li>
+<li><strong>file_url</strong> &#8211; The url of the file to attach.</li>
+<li><strong>transaction_id</strong> &#8211; The type of the file specified in file_url</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Dictionary representation of the attachment that was just registered.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.register_webhook">
 <code class="descname">register_webhook</code><span class="sig-paren">(</span><em>webhook_url</em>, <em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.register_webhook" title="Permalink to this definition">¶</a></dt>
-<dd><p>Registers a webhook.</p>
+<dd><p>Registers a webhook. (<a class="reference external" href="https://monzo.com/docs/#registering-a-webhook">https://monzo.com/docs/#registering-a-webhook</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>webhook_url</strong> &#8211; The webhook url to register.</li>
+<li><strong>account_id</strong> &#8211; The unique identifier for the account to register the webhook.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Registers a webhook to an account.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="mondo.mondo.Mondo.whoami">
 <code class="descname">whoami</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mondo.mondo.Mondo.whoami" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gives information about an access token.</p>
+<dd><p>Gives information about an access token. (<a class="reference external" href="https://monzo.com/docs/#authenticating-requests">https://monzo.com/docs/#authenticating-requests</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A Dictionary representation of the authentication status.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
 
 </div>
 <div class="section" id="module-mondo.request">
-<span id="mondo-request-module"></span><h2>mondo.request module<a class="headerlink" href="#module-mondo.request" title="Permalink to this headline">¶</a></h2>
+<span id="request-module"></span><h2>Request Module<a class="headerlink" href="#module-mondo.request" title="Permalink to this headline">¶</a></h2>
 <p>The module that represents any HTTP request related logic.</p>
 <dl class="class">
 <dt id="mondo.request.Request">
@@ -219,22 +377,83 @@ Back off, buddy. :p</p>
 <dl class="method">
 <dt id="mondo.request.Request.delete">
 <code class="descname">delete</code><span class="sig-paren">(</span><em>url</em>, <em>headers=None</em>, <em>params=None</em>, <em>data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.request.Request.delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sends a DELETE request to a specified URL</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>url</strong> &#8211; The URL to send the request to</li>
+<li><strong>headers</strong> &#8211; The headers to include with the request</li>
+<li><strong>params</strong> &#8211; The data to include with the request</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A Dictionary representation of the response</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="mondo.request.Request.get">
 <code class="descname">get</code><span class="sig-paren">(</span><em>url</em>, <em>headers=None</em>, <em>params=None</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.request.Request.get" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sends a GET request to a specified URL</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>url</strong> &#8211; The URL to send the request to</li>
+<li><strong>headers</strong> &#8211; The headers to include with the request</li>
+<li><strong>params</strong> &#8211; The data to include with the request</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A Dictionary representation of the response</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="mondo.request.Request.post">
 <code class="descname">post</code><span class="sig-paren">(</span><em>url</em>, <em>headers=None</em>, <em>params=None</em>, <em>data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.request.Request.post" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sends a POST request to a specified URL</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>url</strong> &#8211; The URL to send the request to</li>
+<li><strong>headers</strong> &#8211; The headers to include with the request</li>
+<li><strong>params</strong> &#8211; The data to include with the request</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A Dictionary representation of the response</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="mondo.request.Request.validate_response">
 <code class="descname">validate_response</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="headerlink" href="#mondo.request.Request.validate_response" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validate the response and raises any appropriate errors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>response</strong> &#8211; The response to validate</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A Dictionary representation of the response, if no errors occured.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -255,9 +474,9 @@ Back off, buddy. :p</p>
   <ul>
 <li><a class="reference internal" href="#">mondo package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-mondo.errors">mondo.errors module</a></li>
-<li><a class="reference internal" href="#module-mondo.mondo">mondo.mondo module</a></li>
-<li><a class="reference internal" href="#module-mondo.request">mondo.request module</a></li>
+<li><a class="reference internal" href="#module-mondo.errors">Errors Module</a></li>
+<li><a class="reference internal" href="#module-mondo.mondo">Mondo Module</a></li>
+<li><a class="reference internal" href="#module-mondo.request">Request Module</a></li>
 <li><a class="reference internal" href="#module-mondo">Module contents</a></li>
 </ul>
 </li>
@@ -266,7 +485,9 @@ Back off, buddy. :p</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Monzo Python&#8217;s documentation!</a></li>
+  <li><a href="modules.html">mondo</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">mondo</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

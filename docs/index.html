@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to Monzo Python’s documentation! &#8212; Monzo Python 0.4.1 documentation</title>
+    <title>Monzo Python &#8212; Monzo Python 0.4.1 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -40,16 +40,38 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-monzo-python-s-documentation">
-<h1>Welcome to Monzo Python&#8217;s documentation!<a class="headerlink" href="#welcome-to-monzo-python-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
+  <div class="section" id="monzo-python">
+<h1>Monzo Python<a class="headerlink" href="#monzo-python" title="Permalink to this headline">¶</a></h1>
+<p>Monzo Python allows you to quickly and simply access, manipulate and
+play with our banking data. Let&#8217;s get started.</p>
+<p>To install the package run (this package was built and tested with Python 3.5, your mileage
+may vary with other versions)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">mondo</span><span class="o">-</span><span class="n">python</span>
+</pre></div>
+</div>
+<p>Once you&#8217;re done, open up a Python terminal (or create a Python file) and enter the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mondo.mondo</span> <span class="k">import</span> <span class="n">Mondo</span> <span class="c1"># Import Mondo Class</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">Mondo</span><span class="p">(</span><span class="s1">&#39;access_token_goes_here&#39;</span><span class="p">)</span> <span class="c1"># Replace access token with a valid token found at: https://developers.getmondo.co.uk/</span>
+<span class="n">account_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_first_account</span><span class="p">()[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="c1"># Get the ID of the first account linked to the access token</span>
+<span class="n">balance</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span> <span class="c1"># Get your balance object</span>
+<span class="nb">print</span> <span class="n">balance</span><span class="p">[</span><span class="s1">&#39;balance&#39;</span><span class="p">]</span> <span class="c1"># 100000000000</span>
+<span class="nb">print</span> <span class="n">balance</span><span class="p">[</span><span class="s1">&#39;currency&#39;</span><span class="p">]</span> <span class="c1"># GBP</span>
+<span class="nb">print</span> <span class="n">balance</span><span class="p">[</span><span class="s1">&#39;spend_today&#39;</span><span class="p">]</span> <span class="c1"># 2000</span>
+</pre></div>
+</div>
+<p>Yup. That easy. To see what more you can do with the <cite>client</cite> variable, take a look at the <cite>Mondo Module</cite> section
+of the API docs linked below.</p>
+</div>
+<div class="section" id="api-docs">
+<h1>API DOCS<a class="headerlink" href="#api-docs" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="mondo.html">mondo package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="mondo.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mondo.html#module-mondo.errors">mondo.errors module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mondo.html#module-mondo.mondo">mondo.mondo module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mondo.html#module-mondo.request">mondo.request module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mondo.html#module-mondo.errors">Errors Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mondo.html#module-mondo.mondo">Mondo Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mondo.html#module-mondo.request">Request Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mondo.html#module-mondo">Module contents</a></li>
 </ul>
 </li>
@@ -73,7 +95,8 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Welcome to Monzo Python&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#">Monzo Python</a></li>
+<li><a class="reference internal" href="#api-docs">API DOCS</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 <div class="relations">

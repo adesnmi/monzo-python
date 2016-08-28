@@ -4,7 +4,7 @@ mondo package
 Submodules
 ----------
 
-mondo.errors module
+Errors Module
 -------------------
 
 .. automodule:: mondo.errors
@@ -12,7 +12,7 @@ mondo.errors module
     :undoc-members:
     :show-inheritance:
 
-mondo.mondo module
+Mondo Module
 ------------------
 
 .. automodule:: mondo.mondo
@@ -20,7 +20,7 @@ mondo.mondo module
     :undoc-members:
     :show-inheritance:
 
-mondo.request module
+Request Module
 --------------------
 
 .. automodule:: mondo.request
