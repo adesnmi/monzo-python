@@ -3,7 +3,7 @@
 This module contains the class `Monzo` which represents a wrapper around
 HTTP calls to Monzo's API endpoints.
 """
-from request import Request
+from monzo.request import Request
 
 class Monzo(object):
     """The class representation of Monzo's API endpoints.
