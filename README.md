@@ -20,9 +20,9 @@ from monzo.monzo import Monzo # Import Monzo Class
 client = Monzo('access_token_goes_here') # Replace access token with a valid token found at: https://developers.getmondo.co.uk/
 account_id = client.get_first_account()['id'] # Get the ID of the first account linked to the access token
 balance = client.get_balance(account_id) # Get your balance object
-print balance['balance'] # 100000000000
-print balance['currency'] # GBP
-print balance['spend_today'] # 2000
+print(balance['balance']) # 100000000000
+print(balance['currency']) # GBP
+print(balance['spend_today']) # 2000
 ```
 
 Yup. That easy. To see what more you can do with the client variable, take a look at the [API Docs](http://muyiwa.me/monzo-python/monzo.html).

@@ -57,9 +57,9 @@ with 2.7, too. Your mileage may vary with other versions)</p>
 <span class="n">client</span> <span class="o">=</span> <span class="n">Monzo</span><span class="p">(</span><span class="s1">&#39;access_token_goes_here&#39;</span><span class="p">)</span> <span class="c1"># Replace access token with a valid token found at: https://developers.getmondo.co.uk/</span>
 <span class="n">account_id</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_first_account</span><span class="p">()[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="c1"># Get the ID of the first account linked to the access token</span>
 <span class="n">balance</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span> <span class="c1"># Get your balance object</span>
-<span class="nb">print</span> <span class="n">balance</span><span class="p">[</span><span class="s1">&#39;balance&#39;</span><span class="p">]</span> <span class="c1"># 100000000000</span>
-<span class="nb">print</span> <span class="n">balance</span><span class="p">[</span><span class="s1">&#39;currency&#39;</span><span class="p">]</span> <span class="c1"># GBP</span>
-<span class="nb">print</span> <span class="n">balance</span><span class="p">[</span><span class="s1">&#39;spend_today&#39;</span><span class="p">]</span> <span class="c1"># 2000</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">balance</span><span class="p">[</span><span class="s1">&#39;balance&#39;</span><span class="p">])</span> <span class="c1"># 100000000000</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">balance</span><span class="p">[</span><span class="s1">&#39;currency&#39;</span><span class="p">])</span> <span class="c1"># GBP</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">balance</span><span class="p">[</span><span class="s1">&#39;spend_today&#39;</span><span class="p">])</span> <span class="c1"># 2000</span>
 </pre></div>
 </div>
 <p>Yup. That easy. To see what more you can do with the <cite>client</cite> variable, take a look at the <cite>Monzo Module</cite> section
