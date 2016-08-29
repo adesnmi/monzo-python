@@ -2,7 +2,7 @@
 The module that represents any HTTP request related logic.
 """
 import requests
-from .errors import (BadRequestError, UnauthorizedError, ForbiddenError,
+from errors import (BadRequestError, UnauthorizedError, ForbiddenError,
 MethodNotAllowedError, PageNotFoundError, NotAcceptibleError,TooManyRequestsError,
 InternalServerError, GatewayTimeoutError)
 
