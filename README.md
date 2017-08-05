@@ -25,4 +25,4 @@ print(balance['currency']) # GBP
 print(balance['spend_today']) # 2000
 ```
 
-Yup. That easy. To see what more you can do with the client variable, take a look at the [API Docs](http://muyiwa.me/monzo-python/monzo.html).
+Yup. That easy. To see what more you can do with the client variable, take a look at the [tests](https://github.com/muyiwaolu/monzo-python/blob/master/tests/test_api_endpoints.py).
