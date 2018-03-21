@@ -20,6 +20,21 @@ class MonzoAPIObject(object):
                 setattr(self, attribute, value)
 
 
+class WhoAmI(MonzoAPIObject):
+    """WhoAmI Object."""
+
+    def __init__(self, raw):
+        """Init Method."""
+        super(WhoAmI, self).__init__(
+            raw,
+            {
+                "id": "user_id",
+                "client_id": "client_id",
+                "authenticated": "authenticated"
+            }
+        )
+
+
 class Account(MonzoAPIObject):
     """Monzo Account."""
 
@@ -87,6 +102,7 @@ class Monzo(object):
         self.access_token = access_token
         self.headers = {'Authorization': 'Bearer {0}'.format(self.access_token)}
         self.request = Request()
+        self.who = self.whoami()
 
     def whoami(self):
         """
@@ -96,7 +112,7 @@ class Monzo(object):
         """
         url = "{0}/ping/whoami".format(self.API_URL)
         response = self.request.get(url, headers=self.headers)
-        return response
+        return WhoAmI(response)
 
     def get_accounts(self, **parameters):
         """
