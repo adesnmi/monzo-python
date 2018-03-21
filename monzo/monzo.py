@@ -5,8 +5,70 @@ HTTP calls to Monzo's API endpoints.
 """
 from monzo.request import Request
 
+
+class MonzoAPIObject(object):
+    """MonzoAPiObject Uused to convert JSON response to Python Object."""
+
+    def __init__(self, raw, attribute_map):
+        """Init method of MonzoAPiObject."""
+        self.raw = raw
+
+        for attribute, value in attribute_map.items():
+            if type(value) is str:
+                setattr(self, attribute, raw.get(value, None))
+            else:
+                setattr(self, attribute, value)
+
+
+class Account(MonzoAPIObject):
+    """Monzo Account."""
+
+    def __init__(self, raw):
+        """Init Method."""
+        super(Account, self).__init__(
+            raw,
+            {
+                "id": "id",
+                "closed": "closed",
+                "created": "created",
+                "account_type": "type",
+                "description": "description",
+                "account_number": "account_numebr",
+                "sort_code": "sort_code"
+            }
+        )
+
+
+class Balance(MonzoAPIObject):
+    """Balance class."""
+
+    def __init__(self, raw):
+        """Init Method."""
+        super(Balance, self).__init__(
+            raw,
+            {
+                "balance": "balance",
+                "total_balance": "total_balance",
+                "currency": "GBP",
+                "spend_today": "spend_today",
+                "local_currency": "local_currency",
+                "local_exchange_rate": "local_exchange_rate",
+                "local_spend": "local_spend"
+            }
+        )
+
+        self.balance = "{:.2f}".format(
+            round(self.balance / 100, 2)
+        )
+
+        self.total_balance = "{:.2f}".format(
+            round(self.total_balance / 100, 2)
+        )
+
+
 class Monzo(object):
-    """The class representation of Monzo's API endpoints.
+    """
+    The class representation of Monzo's API endpoints.
 
        Please note that functions without a reference to the official Monzo API
        docs page are convinence functions which are created - based on the official
@@ -18,34 +80,51 @@ class Monzo(object):
        :param access_token: The access token to authorise API calls.
     """
 
-    API_URL = 'https://api.monzo.com/' #: (str): A representation of the current Monzo api url.
+    API_URL = 'https://api.monzo.com/'  #: (str): A representation of the current Monzo api url.
 
     def __init__(self, access_token):
+        """Init Method."""
         self.access_token = access_token
         self.headers = {'Authorization': 'Bearer {0}'.format(self.access_token)}
         self.request = Request()
 
     def whoami(self):
-        """Gives information about an access token. (https://monzo.com/docs/#authenticating-requests)
+        """
+        Give information about an access token. (https://monzo.com/docs/#authenticating-requests).
 
-           :rtype: A Dictionary representation of the authentication status.
+        :rtype: A Dictionary representation of the authentication status.
         """
         url = "{0}/ping/whoami".format(self.API_URL)
         response = self.request.get(url, headers=self.headers)
         return response
 
-    def get_accounts(self):
-        """Get all accounts that belong to a user. (https://monzo.com/docs/#list-accounts)
+    def get_accounts(self, **parameters):
+        """
+        Get all accounts that belong to a user. (https://monzo.com/docs/#list-accounts).
 
            :rtype: A Collection of accounts for a user.
 
         """
         url = "{0}/accounts".format(self.API_URL)
-        response = self.request.get(url, headers=self.headers)
-        return response
+        response = self.request.get(url, headers=self.headers, params=parameters)
+
+        return [Account(x) for x in response['accounts']]
+
+    def get_current_account(self):
+        """
+        Get the first account for a user.
+
+           :rtype: A Dictionary representation of the first account belonging to a user, if it exists.
+
+        """
+        accounts = self.get_accounts(account_type="uk_retail")
+        if len(accounts) <= 0:
+            raise LookupError('There are no accounts associated with this user.')
+        return accounts[0]
 
     def get_first_account(self):
-        """Gets the first account for a user.
+        """
+        Get the first account for a user.
 
            :rtype: A Dictionary representation of the first account belonging to a user, if it exists.
 
@@ -53,10 +132,11 @@ class Monzo(object):
         accounts = self.get_accounts()
         if len(accounts['accounts']) <= 0:
             raise LookupError('There are no accounts associated with this user.')
-        return accounts['accounts'][0]
+        return accounts[0]
 
     def get_transactions(self, account_id):
-        """Get all transactions of a given account. (https://monzo.com/docs/#list-transactions)
+        """
+        Get all transactions of a given account. (https://monzo.com/docs/#list-transactions).
 
            :param account_id: The unique identifier for the account which the transactions belong to.
            :rtype: A collection of transaction objects for specific user.
@@ -67,7 +147,8 @@ class Monzo(object):
         return response
 
     def get_balance(self, account_id):
-        """Gets the balance of a given account. (https://monzo.com/docs/#read-balance)
+        """
+        Get the balance of a given account. (https://monzo.com/docs/#read-balance).
 
            :param account_id: The unique identifier for the account which the balance belong to.
            :rtype: Dictionary representation of the current account balance.
@@ -76,10 +157,11 @@ class Monzo(object):
         url = "{0}/balance".format(self.API_URL)
         params = {'account_id': account_id}
         response = self.request.get(url, headers=self.headers, params=params)
-        return response
+        return Balance(response)
 
     def get_webhooks(self, account_id):
-        """Gets the webhooks of a given account. (https://monzo.com/docs/#list-webhooks)
+        """
+        Get the webhooks of a given account. (https://monzo.com/docs/#list-webhooks).
 
            :param account_id: The unique identifier for the account which the webhooks belong to.
            :rtype: A collection of webhooks that belong to an account.
@@ -91,7 +173,8 @@ class Monzo(object):
         return response
 
     def get_first_webhook(self, account_id):
-        """Gets the first webhook of a given account.
+        """
+        Get the first webhook of a given account.
 
            :param account_id: The unique identifier for the account which the first webhook belong to.
            :rtype: A Dictionary representation of the first webhook belonging to an account, if it exists.
@@ -102,7 +185,8 @@ class Monzo(object):
         return webhooks['webhooks'][0]
 
     def delete_webhook(self, webhook_id):
-        """Deletes the a specified webhook. (https://monzo.com/docs/#deleting-a-webhook)
+        """
+        Delete the a specified webhook. (https://monzo.com/docs/#deleting-a-webhook).
 
            :param webhook_id: The unique identifier for the webhook to delete.
            :rtype: An empty Dictionary, if the deletion was successful.
@@ -112,7 +196,8 @@ class Monzo(object):
         return response
 
     def delete_all_webhooks(self):
-        """Removes all webhooks associated with the first account, if it exists.
+        """
+        Remove all webhooks associated with the first account, if it exists.
 
            :rtype: None
         """
@@ -123,7 +208,8 @@ class Monzo(object):
             self.delete_webhook(webhook['id'])
 
     def register_webhook(self, webhook_url, account_id):
-        """Registers a webhook. (https://monzo.com/docs/#registering-a-webhook)
+        """
+        Register a webhook. (https://monzo.com/docs/#registering-a-webhook).
 
            :param webhook_url: The webhook url to register.
            :param account_id: The unique identifier for the account to register the webhook.
@@ -132,9 +218,11 @@ class Monzo(object):
         """
         url = "{0}/webhooks".format(self.API_URL)
         response = self.request.post(url, headers=self.headers, data={'account_id': account_id, 'url': webhook_url})
+        return response
 
     def register_attachment(self, transaction_id, file_url, file_type):
-        """Attaches an image to a transaction. (https://monzo.com/docs/#register-attachment)
+        """
+        Attach an image to a transaction. (https://monzo.com/docs/#register-attachment).
 
            :param transaction_id: The unique identifier for the transaction to register the attachment to.
            :param file_url: The url of the file to attach.
@@ -143,15 +231,20 @@ class Monzo(object):
            :rtype: Dictionary representation of the attachment that was just registered.
         """
         url = "{0}/attachment/register".format(self.API_URL)
-        response = self.request.post(url,
-                                    headers=self.headers,
-                                    data={'external_id': transaction_id,
-                                          'file_url': file_url,
-                                          'file_type': file_type})
+        response = self.request.post(
+            url,
+            headers=self.headers,
+            data={
+                'external_id': transaction_id,
+                'file_url': file_url,
+                'file_type': file_type
+            }
+        )
         return response
 
     def deregister_attachment(self, attachment_id):
-        """Removed a previously attached image from a transaction. (https://monzo.com/docs/#deregister-attachment)
+        """
+        Removed a previously attached image from a transaction. (https://monzo.com/docs/#deregister-attachment).
 
             :param transaction_id: The unique identifier for the attachment to deregister.
             :rtype: An empty Dictionary, if the deregistration was successful.
@@ -160,9 +253,9 @@ class Monzo(object):
         response = self.request.post(url, headers=self.headers, data={'id': attachment_id})
         return response
 
-
     def create_feed_item(self, account_id, feed_type, url, params):
-        """Creates a feed item. (https://monzo.com/docs/#create-feed-item)
+        """
+        Create a feed item. (https://monzo.com/docs/#create-feed-item).
 
             :param account_id: The unique identifier for the account to create the feed item for.
             :param feed_type: The type of feed item (currently only `basic` is supported).
