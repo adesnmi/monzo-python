@@ -8,11 +8,11 @@ class TestApiEndpoints:
 
     def test_whoami(self, client):
         whoami = client.whoami()
-        assert whoami['authenticated']
+        assert whoami.authenticated
 
     def test_get_accounts(self, client):
         accounts = client.get_accounts()
-        assert accounts['accounts'] is not None
+        assert accounts is not None
 
     def test_get_transactions(self, client):
         account_id = client.get_first_account()['id']
@@ -22,12 +22,12 @@ class TestApiEndpoints:
     def test_get_balance(self, client):
         account_id = client.get_first_account()['id']
         balance = client.get_balance(account_id)
-        assert balance['balance'] is not None
+        assert balance is not None
 
     def test_get_webhooks(self, client):
         account_id = client.get_first_account()['id']
         webhooks = client.get_webhooks(account_id)
-        assert webhooks['webhooks'] is not None
+        assert webhooks is not None
 
     def test_delete_webhook(self, client):
         account_id = client.get_first_account()['id']

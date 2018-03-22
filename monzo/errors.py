@@ -30,3 +30,6 @@ class InternalServerError(Exception):
 
 class GatewayTimeoutError(Exception):
     """A timeout has occured on Monzo's servers."""
+
+class NoAccessTokenError(Exception):
+    """No access token was found"""

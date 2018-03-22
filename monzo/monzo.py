@@ -3,82 +3,10 @@
 This module contains the class `Monzo` which represents a wrapper around
 HTTP calls to Monzo's API endpoints.
 """
-from monzo.request import Request
-
-
-class MonzoAPIObject(object):
-    """MonzoAPiObject Uused to convert JSON response to Python Object."""
-
-    def __init__(self, raw, attribute_map):
-        """Init method of MonzoAPiObject."""
-        self.raw = raw
-
-        for attribute, value in attribute_map.items():
-            if type(value) is str:
-                setattr(self, attribute, raw.get(value, None))
-            else:
-                setattr(self, attribute, value)
-
-
-class WhoAmI(MonzoAPIObject):
-    """WhoAmI Object."""
-
-    def __init__(self, raw):
-        """Init Method."""
-        super(WhoAmI, self).__init__(
-            raw,
-            {
-                "id": "user_id",
-                "client_id": "client_id",
-                "authenticated": "authenticated"
-            }
-        )
-
-
-class Account(MonzoAPIObject):
-    """Monzo Account."""
-
-    def __init__(self, raw):
-        """Init Method."""
-        super(Account, self).__init__(
-            raw,
-            {
-                "id": "id",
-                "closed": "closed",
-                "created": "created",
-                "account_type": "type",
-                "description": "description",
-                "account_number": "account_numebr",
-                "sort_code": "sort_code"
-            }
-        )
-
-
-class Balance(MonzoAPIObject):
-    """Balance class."""
-
-    def __init__(self, raw):
-        """Init Method."""
-        super(Balance, self).__init__(
-            raw,
-            {
-                "balance": "balance",
-                "total_balance": "total_balance",
-                "currency": "GBP",
-                "spend_today": "spend_today",
-                "local_currency": "local_currency",
-                "local_exchange_rate": "local_exchange_rate",
-                "local_spend": "local_spend"
-            }
-        )
-
-        self.balance = "{:.2f}".format(
-            round(self.balance / 100, 2)
-        )
-
-        self.total_balance = "{:.2f}".format(
-            round(self.total_balance / 100, 2)
-        )
+from .request import Request
+from .errors import NoAccessTokenError
+import json
+import os
 
 
 class Monzo(object):
@@ -97,9 +25,16 @@ class Monzo(object):
 
     API_URL = 'https://api.monzo.com/'  #: (str): A representation of the current Monzo api url.
 
-    def __init__(self, access_token):
+    def __init__(self, access_token=False):
         """Init Method."""
-        self.access_token = access_token
+        if access_token:
+            self.access_token = access_token
+        else:
+            self.access_token = os.environ.get('MONZO_ACCESS_TOKEN', None)
+
+        if not self.access_token:
+            raise(NoAccessTokenError)
+
         self.headers = {'Authorization': 'Bearer {0}'.format(self.access_token)}
         self.request = Request()
         self.who = self.whoami()
@@ -138,6 +73,18 @@ class Monzo(object):
             raise LookupError('There are no accounts associated with this user.')
         return accounts[0]
 
+    def get_pots(self, **parameters):
+        """
+        Get all accounts that belong to a user. (https://monzo.com/docs/#list-pots).
+
+           :rtype: A Collection of pots for a user.
+
+        """
+        url = "{0}/pots".format(self.API_URL)
+        response = self.request.get(url, headers=self.headers)
+
+        return [Pot(x) for x in response['pots'] if x['deleted'] != "true"]
+
     def get_first_account(self):
         """
         Get the first account for a user.
@@ -146,11 +93,11 @@ class Monzo(object):
 
         """
         accounts = self.get_accounts()
-        if len(accounts['accounts']) <= 0:
+        if len(accounts) <= 0:
             raise LookupError('There are no accounts associated with this user.')
         return accounts[0]
 
-    def get_transactions(self, account_id):
+    def get_transactions(self, **parameters):
         """
         Get all transactions of a given account. (https://monzo.com/docs/#list-transactions).
 
@@ -160,7 +107,7 @@ class Monzo(object):
         url = "{0}/transactions".format(self.API_URL)
         params = {'expand[]': 'merchant', 'account_id': account_id}
         response = self.request.get(url, headers=self.headers, params=params)
-        return response
+        return [Transaction(x) for x in response['transactions']]
 
     def get_balance(self, account_id):
         """
@@ -186,7 +133,8 @@ class Monzo(object):
         url = "{0}/webhooks".format(self.API_URL)
         params = {'account_id': account_id}
         response = self.request.get(url, headers=self.headers, params=params)
-        return response
+
+        return [WebHook(x) for x in response['webhooks']]
 
     def get_first_webhook(self, account_id):
         """
@@ -196,9 +144,9 @@ class Monzo(object):
            :rtype: A Dictionary representation of the first webhook belonging to an account, if it exists.
         """
         webhooks = self.get_webhooks(account_id)
-        if len(webhooks['webhooks']) <= 0:
+        if len(webhooks) <= 0:
             raise LookupError('There are no webhooks associated with the account.')
-        return webhooks['webhooks'][0]
+        return webhooks[0]
 
     def delete_webhook(self, webhook_id):
         """
@@ -211,17 +159,15 @@ class Monzo(object):
         response = self.request.delete(url, headers=self.headers)
         return response
 
-    def delete_all_webhooks(self):
+    def delete_all_webhooks(self, account_id):
         """
         Remove all webhooks associated with the first account, if it exists.
 
            :rtype: None
         """
-        first_account = self.get_first_account()
-        account_id = first_account['id']
         webhooks = self.get_webhooks(account_id)
-        for webhook in webhooks['webhooks']:
-            self.delete_webhook(webhook['id'])
+        for webhook in webhooks:
+            self.delete_webhook(webhook.id)
 
     def register_webhook(self, webhook_url, account_id):
         """
@@ -294,3 +240,184 @@ class Monzo(object):
                                      data=data
                                      )
         return response
+
+
+class MonzoAPIObject(object):
+    """MonzoAPiObject Uused to convert JSON response to Python Object."""
+
+    def __init__(self, raw, attribute_map):
+        """Init method of MonzoAPiObject."""
+        self.raw = raw
+
+        for attribute, value in attribute_map.items():
+            if type(value) is str:
+                setattr(self, attribute, raw.get(value, None))
+            else:
+                setattr(self, attribute, value)
+
+    def to_json(self):
+        """Return JSON of the raw input."""
+        return json.dumps(self.raw)
+
+    def convert_amount(self, to_convert):
+        return "{:.2f}".format(
+            round(float(to_convert) / 100, 2)
+        )
+
+class WebHook(MonzoAPIObject):
+
+    def __init__(self, raw):
+        super(WebHook, self).__init__(
+            raw,
+            {
+                "id": "id",
+                "url": "url",
+                "account": "account_id"
+            }
+        )
+
+class Address(MonzoAPIObject):
+
+    def __init__(self, raw):
+        super(Address, self).__init__(
+            raw,
+            {
+                "address": "address",
+                "city": "city",
+                "country": "country",
+                "latitude": "latitude",
+                "longitude": "longitude",
+                "postcode": "postcode",
+                "region": "region"
+            }
+        )
+
+class Merchant(MonzoAPIObject):
+
+    def __init__(self, raw):
+        super(Merchant, self).__init__(
+            raw,
+            {
+                "created": "created",
+                "group_id": "group_id",
+                "id": "id",
+                "logo": "logo",
+                "emoji": "emoji",
+                "name": "name",
+                "category": "category"
+            }
+        )
+
+        self.address = raw.get('address', None)
+        if self.address:
+            self.address = Address(raw)
+
+class Transaction(MonzoAPIObject):
+
+    def __init__(self, raw):
+        super(Transaction, self).__init__(
+            raw,
+            {
+                "account_balance": "account_balance",
+                "amount": "amount",
+                "created": "created",
+                "currency": "currency",
+                "description": "description",
+                "id": "id",
+                "notes": "notes",
+                "settled": "settled"
+            }
+        )
+
+        self.amount = self.convert_amount(self.amount)
+        self.account_balance = self.convert_amount(self.account_balance)
+
+        self.merchant = raw.get("merchant", None)
+        if self.merchant:
+            self.merchant = Merchant(raw)
+
+
+class WhoAmI(MonzoAPIObject):
+    """WhoAmI Object."""
+
+    def __init__(self, raw):
+        """Init Method."""
+        super(WhoAmI, self).__init__(
+            raw,
+            {
+                "id": "user_id",
+                "client_id": "client_id",
+                "authenticated": "authenticated"
+            }
+        )
+
+
+class Account(MonzoAPIObject):
+    """Monzo Account."""
+
+    def __init__(self, raw):
+        """Init Method."""
+        super(Account, self).__init__(
+            raw,
+            {
+                "id": "id",
+                "closed": "closed",
+                "created": "created",
+                "account_type": "type",
+                "description": "description",
+                "account_number": "account_numebr",
+                "sort_code": "sort_code"
+            }
+        )
+
+        name_parts = self.description.split(" ")
+        self.first_name = name_parts[0]
+        self.last_name = name_parts[-1]
+
+        if len(name_parts) > 2:
+            self.middle_names = name_parts[1:-1]
+
+
+class Pot(MonzoAPIObject):
+    """Monzo Pot."""
+
+    def __init__(self, raw):
+        """Init Method."""
+        super(Pot, self).__init__(
+            raw,
+            {
+                "id": "id",
+                "name": "name",
+                "style": "style",
+                "balance": "balance",
+                "currency": "currency",
+                "created": "created",
+                "updated": "updated"
+            }
+        )
+
+        self.balance = self.convert_amount(self.balance)
+
+
+class Balance(MonzoAPIObject):
+    """Balance class."""
+
+    def __init__(self, raw):
+        """Init Method."""
+        super(Balance, self).__init__(
+            raw,
+            {
+                "balance": "balance",
+                "total_balance": "total_balance",
+                "currency": "currency",
+                "spend_today": "spend_today",
+                "local_currency": "local_currency",
+                "local_exchange_rate": "local_exchange_rate",
+                "local_spend": "local_spend"
+            }
+        )
+
+        self.balance = self.convert_amount(self.balance)
+
+        self.total_balance = self.convert_amount(self.total_balance)
+
