@@ -25,7 +25,7 @@ class TestApiEndpoints:
         assert balance['balance'] is not None
 
     def test_get_pots(self, client):
-        pots = client.get_pots()
+        pots = client.get_pots()['pots']
         assert pots is not None
 
     def test_get_webhooks(self, client):
