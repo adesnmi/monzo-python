@@ -24,6 +24,10 @@ class TestApiEndpoints:
         balance = client.get_balance(account_id)
         assert balance['balance'] is not None
 
+    def test_get_pots(self, client):
+        pots = client.get_pots()['pots']
+        assert pots is not None
+
     def test_get_webhooks(self, client):
         account_id = client.get_first_account()['id']
         webhooks = client.get_webhooks(account_id)

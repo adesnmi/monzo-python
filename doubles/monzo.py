@@ -203,3 +203,24 @@ class Monzo(object):
             :rtype: An empty Dictionary, if the feed item creation was successful.
         """
         return {}
+
+    def get_pots(self):
+        """Get all pots that belong to a user.
+
+           :rtype: A stubbed collection of pots for a user.
+
+        """
+        return {
+            "pots": [
+                {
+                    "balance": 100,
+                    "deleted": False,
+                    "currency": "GBP",
+                    "id": "pot_1234567890123456789012",
+                    "created": "2017-12-25T21:13:45.045Z",
+                    "updated": "2018-02-11T18:38:56.624Z",
+                    "style": "purple_gradient",
+                    "name": "My Pot"
+                }
+            ]
+        }
