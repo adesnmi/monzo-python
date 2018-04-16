@@ -185,3 +185,13 @@ class Monzo(object):
                                      data=data
                                      )
         return response
+
+    def get_pots(self):
+        """Get all pots for a user.
+
+           :rtype: A collection of pots for a user.
+
+        """
+        url = "{0}/pots".format(self.API_URL)
+        response = self.request.get(url, headers=self.headers)
+        return response
