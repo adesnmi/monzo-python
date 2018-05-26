@@ -53,6 +53,9 @@ class Monzo(object):
         accounts = self.get_accounts()
         if len(accounts['accounts']) <= 0:
             raise LookupError('There are no accounts associated with this user.')
+        for i in accounts['accounts']:
+            if i['closed'] == False:
+                return i
         return accounts['accounts'][0]
 
     def get_transactions(self, account_id):
