@@ -1,5 +1,5 @@
 from monzo.monzo import Monzo
-from monzo.errors import UnauthorizedError
+from monzo.errors import BadRequestError
 import pytest
 
 class TestApiErrors:
@@ -8,5 +8,5 @@ class TestApiErrors:
         return Monzo('gibberish')
 
     def test_whoami(self, unauthorized_client):
-        with pytest.raises(UnauthorizedError):
+        with pytest.raises(BadRequestError):
             unauthorized_client.whoami()
