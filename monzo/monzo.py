@@ -4,6 +4,8 @@ This module contains the class `Monzo` which represents a wrapper around
 HTTP calls to Monzo's API endpoints.
 """
 from monzo.request import Request
+import string
+import random
 
 class Monzo(object):
     """The class representation of Monzo's API endpoints.
@@ -186,8 +188,9 @@ class Monzo(object):
                                      )
         return response
 
+
     def get_pots(self):
-        """Get all pots for a user.
+        """Get all pots for a user. (https://monzo.com/docs/#list-pots)
 
            :rtype: A collection of pots for a user.
 
@@ -195,3 +198,45 @@ class Monzo(object):
         url = "{0}/pots".format(self.API_URL)
         response = self.request.get(url, headers=self.headers)
         return response
+
+
+    def deposit_into_pot(self, pot_id, account_id, amount_in_pennies):
+        """Move money from an account into a pot. (https://monzo.com/docs/#deposit-into-a-pot)
+
+            :param pot_id: The unique identifier for the pot to deposit the money to.
+            :param account_id: The unique identifier for the account to move the money from.
+            :param amount_in_pennies: The amount of money to move to the pot in pennies.
+
+            :rtype: A dictionary containing information on the pot that was updated.
+        """
+        url = "{0}/pots/{1}/deposit".format(self.API_URL, pot_id)
+        unique_string = ''.join(random.choice(string.ascii_letters) for i in range(15))
+        data = {
+            'source_account_id': account_id,
+            'amount': amount_in_pennies,
+            'dedupe_id': unique_string
+        }
+
+        response = self.request.put(url, headers=self.headers, data=data)
+        return response
+
+    def withdraw_from_pot(self, account_id, pot_id, amount_in_pennies):
+        """Move money from an account into a pot. (https://monzo.com/docs/#withdraw-from-a-pot)
+
+            :param account_id: The unique identifier for the account to move the money to.
+            :param pot_id: The unique identifier for the pot to withdraw the money from.
+            :param amount_in_pennies: The amount of money to move to the pot in pennies.
+
+            :rtype: A dictionary containing information on the pot that was updated.
+        """
+        url = "{0}/pots/{1}/withdraw".format(self.API_URL, pot_id)
+        unique_string = ''.join(random.choice(string.ascii_letters) for i in range(15))
+        data = {
+            'destination_account_id': account_id,
+            'amount': amount_in_pennies,
+            'dedupe_id': unique_string
+        }
+
+        response = self.request.put(url, headers=self.headers, data=data)
+        return response
+
