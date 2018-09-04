@@ -28,6 +28,18 @@ class TestApiEndpoints:
         pots = client.get_pots()['pots']
         assert pots is not None
 
+    def test_deposit_into_pot(self, client):
+        pot_id = client.get_pots()['pots'][0]['id']
+        account_id = client.get_first_account()['id']
+        pot_info = client.deposit_into_pot(pot_id, account_id, 1000)
+        assert pot_info is not None
+
+    def test_withdraw_from_pot(self, client):
+        pot_id = client.get_pots()['pots'][0]['id']
+        account_id = client.get_first_account()['id']
+        pot_info = client.withdraw_from_pot(account_id, pot_id, 1000)
+        assert pot_info is not None
+
     def test_get_webhooks(self, client):
         account_id = client.get_first_account()['id']
         webhooks = client.get_webhooks(account_id)
