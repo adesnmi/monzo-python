@@ -153,7 +153,7 @@ class Monzo(object):
            :param webhook_url: The webhook url to register.
            :param account_id: The unique identifier for the account to register the webhook.
 
-           :rtype: A stubbed dictionary representing a webhook 
+           :rtype: A stubbed dictionary representing a webhook
         """
         return {
             "webhook": {
@@ -205,9 +205,9 @@ class Monzo(object):
         return {}
 
     def get_pots(self):
-        """Get all pots that belong to a user.
+        """Get all pots for a user. (https://monzo.com/docs/#list-pots)
 
-           :rtype: A stubbed collection of pots for a user.
+           :rtype: A collection of pots for a user.
 
         """
         return {
@@ -223,4 +223,52 @@ class Monzo(object):
                     "name": "My Pot"
                 }
             ]
+        }
+
+    def deposit_into_pot(self, pot_id, account_id, amount_in_pennies):
+        """Move money from an account into a pot. (https://monzo.com/docs/#deposit-into-a-pot)
+
+            :param pot_id: The unique identifier for the pot to deposit the money to.
+            :param account_id: The unique identifier for the account to move the money from.
+            :param amount_in_pennies: The amount of money to move to the pot in pennies.
+
+            :rtype: A dictionary containing information on the pot that was updated.
+        """
+        return {
+            "balance": 200,
+            "created": "2018-04-03T21:55:11.037Z",
+            "currency": "GBP",
+            "deleted": False,
+            "id": "pot_1234567890123456789012",
+            "maximum_balance": -1,
+            "minimum_balance": -1,
+            "name": "My awesome pot",
+            "round_up": False,
+            "style": "raspberry",
+            "type": "default",
+            "updated": "2018-04-04T16:55:11.037Z"
+        }
+
+    def withdraw_from_pot(self, account_id, pot_id, amount_in_pennies):
+        """Move money from an account into a pot. (https://monzo.com/docs/#withdraw-from-a-pot)
+
+            :param account_id: The unique identifier for the account to move the money to.
+            :param pot_id: The unique identifier for the pot to withdraw the money from.
+            :param amount_in_pennies: The amount of money to move to the pot in pennies.
+
+            :rtype: A dictionary containing information on the pot that was updated.
+        """
+        return {
+            "balance": 300,
+            "created": "2018-04-03T21:55:11.037Z",
+            "currency": "GBP",
+            "deleted": False,
+            "id": "pot_1234567890123456789012",
+            "maximum_balance": -1,
+            "minimum_balance": -1,
+            "name": "My awesome pot",
+            "round_up": False,
+            "style": "raspberry",
+            "type": "default",
+            "updated": "2018-04-04T16:55:11.037Z"
         }

@@ -32,6 +32,18 @@ class Request(object):
         response = requests.post(url=url, headers=headers, data=data, params=params)
         return self.validate_response(response)
 
+    def put(self, url, headers=None, params=None, data=None):
+        """Sends a PUT request to a specified URL
+
+           :param url: The URL to send the request to
+           :param headers: The headers to include with the request
+           :param params: The data to include with the request
+
+           :rtype: A Dictionary representation of the response
+        """
+        response = requests.put(url=url, headers=headers, data=data, params=params)
+        return self.validate_response(response)
+
     def delete(self, url, headers=None, params=None, data=None):
         """Sends a DELETE request to a specified URL
 
