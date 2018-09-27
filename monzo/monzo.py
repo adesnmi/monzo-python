@@ -27,12 +27,11 @@ class Monzo(object):
 
     def __init__(self, client_id:str = None, client_secret:str= None, access_token:str = None,
                  refresh_token:str = None, expires_at:str = None, refresh_cb=lambda x: None) -> None:
-        localhost = 'http://localhost'
         self.oauth_session = _auth.MonzoOauth2Client(client_id, client_secret, access_token=access_token, refresh_cb=refresh_cb)
         if not access_token:
-            webbrowser.open(self.oauth_session.authorize_token_url(localhost)[0], new=2)
+            webbrowser.open(self.oauth_session.authorize_token_url()[0], new=2)
             auth_code = input("Input Auth code from email")
-            self.oauth_session.fetch_access_token(auth_code, localhost)
+            self.oauth_session.fetch_access_token(auth_code)
             self.access_token = self.oauth_session.session.token
 
     def update_token(self,token:Dict[str,str]) -> None:
