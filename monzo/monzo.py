@@ -4,7 +4,7 @@ This module contains the class `Monzo` which represents a wrapper around
 HTTP calls to Monzo's API endpoints.
 """
 
-from typing import Dict
+from typing import Dict, List, Union, Any
 import monzo.auth
 import string
 import random
@@ -14,7 +14,7 @@ class Monzo(object):
     """The class representation of Monzo's API endpoints.
 
        Please note that functions without a reference to the official Monzo API
-       docs page are convinence functions which are created - based on the official
+       docs page are convenience functions which are created - based on the official
        API functions - to make life easier for developers.
 
        e.g. `get_first_account` calls `get_account` and returns the first `account`
@@ -43,7 +43,7 @@ class Monzo(object):
         """
         self.access_token=token['access_token']
 
-    def whoami(self) -> None:
+    def whoami(self) -> Dict[str,str]:
         """Gives information about an access token. (https://monzo.com/docs/#authenticating-requests)
 
            :rtype: A Dictionary representation of the authentication status.
@@ -52,7 +52,7 @@ class Monzo(object):
         response = self.oauth_session.make_request(url)
         return response
 
-    def get_accounts(self):
+    def get_accounts(self) -> Dict[str,List[Dict[str,str]]]:
         """Get all accounts that belong to a user. (https://monzo.com/docs/#list-accounts)
 
            :rtype: A Collection of accounts for a user.
@@ -62,7 +62,7 @@ class Monzo(object):
         response = self.oauth_session.make_request(url)
         return response
 
-    def get_first_account(self):
+    def get_first_account(self) -> Dict[str,Union[str,List]]:
         """Gets the first account for a user.
 
            :rtype: A Dictionary representation of the first account belonging to a user, if it exists.
@@ -73,7 +73,7 @@ class Monzo(object):
             raise LookupError('There are no accounts associated with this user.')
         return accounts['accounts'][0]
 
-    def get_transactions(self, account_id):
+    def get_transactions(self, account_id) -> Dict[str,List[Dict]]:
         """Get all transactions of a given account. (https://monzo.com/docs/#list-transactions)
 
            :param account_id: The unique identifier for the account which the transactions belong to.
@@ -84,7 +84,7 @@ class Monzo(object):
         response = self.oauth_session.make_request(url, params=params)
         return response
 
-    def get_balance(self, account_id):
+    def get_balance(self, account_id) -> Dict[str, Any]:
         """Gets the balance of a given account. (https://monzo.com/docs/#read-balance)
 
            :param account_id: The unique identifier for the account which the balance belong to.
@@ -96,7 +96,7 @@ class Monzo(object):
         response = self.oauth_session.make_request(url, params=params)
         return response
 
-    def get_webhooks(self, account_id):
+    def get_webhooks(self, account_id:str) -> Dict[str, List]:
         """Gets the webhooks of a given account. (https://monzo.com/docs/#list-webhooks)
 
            :param account_id: The unique identifier for the account which the webhooks belong to.
@@ -108,7 +108,7 @@ class Monzo(object):
         response = self.oauth_session.make_request(url, params=params)
         return response
 
-    def get_first_webhook(self, account_id):
+    def get_first_webhook(self, account_id:str) -> Dict[str, Any]:
         """Gets the first webhook of a given account.
 
            :param account_id: The unique identifier for the account which the first webhook belong to.
@@ -119,7 +119,7 @@ class Monzo(object):
             raise LookupError('There are no webhooks associated with the account.')
         return webhooks['webhooks'][0]
 
-    def delete_webhook(self, webhook_id):
+    def delete_webhook(self, webhook_id) -> Dict:
         """Deletes the a specified webhook. (https://monzo.com/docs/#deleting-a-webhook)
 
            :param webhook_id: The unique identifier for the webhook to delete.
@@ -129,7 +129,7 @@ class Monzo(object):
         response = self.oauth_session.make_request(url, method='DELETE')
         return response
 
-    def delete_all_webhooks(self):
+    def delete_all_webhooks(self) -> None:
         """Removes all webhooks associated with the first account, if it exists.
 
            :rtype: None
@@ -140,7 +140,7 @@ class Monzo(object):
         for webhook in webhooks['webhooks']:
             self.delete_webhook(webhook['id'])
 
-    def register_webhook(self, webhook_url, account_id):
+    def register_webhook(self, webhook_url:str, account_id:str):
         """Registers a webhook. (https://monzo.com/docs/#registering-a-webhook)
 
            :param webhook_url: The webhook url to register.
@@ -152,7 +152,7 @@ class Monzo(object):
         data = {'account_id': account_id, 'url': webhook_url}
         response = self.oauth_session.make_request(url, data=data)
 
-    def register_attachment(self, transaction_id, file_url, file_type):
+    def register_attachment(self, transaction_id:str, file_url:str, file_type:str):
         """Attaches an image to a transaction. (https://monzo.com/docs/#register-attachment)
 
            :param transaction_id: The unique identifier for the transaction to register the attachment to.
@@ -168,7 +168,7 @@ class Monzo(object):
         response = self.oauth_session.make_request(url,data=data)
         return response
 
-    def deregister_attachment(self, attachment_id):
+    def deregister_attachment(self, attachment_id:str):
         """Removed a previously attached image from a transaction. (https://monzo.com/docs/#deregister-attachment)
 
             :param transaction_id: The unique identifier for the attachment to deregister.
@@ -180,7 +180,7 @@ class Monzo(object):
         return response
 
 
-    def create_feed_item(self, account_id, feed_type, url, params):
+    def create_feed_item(self, account_id:str, feed_type:str, url:str, params:Dict):
         """Creates a feed item. (https://monzo.com/docs/#create-feed-item)
 
             :param account_id: The unique identifier for the account to create the feed item for.
@@ -203,7 +203,7 @@ class Monzo(object):
         return response
 
 
-    def get_pots(self):
+    def get_pots(self) -> Dict[str, List]:
         """Get all pots for a user. (https://monzo.com/docs/#list-pots)
 
            :rtype: A collection of pots for a user.
@@ -214,7 +214,7 @@ class Monzo(object):
         return response
 
 
-    def deposit_into_pot(self, pot_id, account_id, amount_in_pennies):
+    def deposit_into_pot(self, pot_id:str, account_id:str, amount_in_pennies:int):
         """Move money from an account into a pot. (https://monzo.com/docs/#deposit-into-a-pot)
 
             :param pot_id: The unique identifier for the pot to deposit the money to.
@@ -234,7 +234,7 @@ class Monzo(object):
         response = self.oauth_session.make_request(url, data=data)
         return response
 
-    def withdraw_from_pot(self, account_id, pot_id, amount_in_pennies):
+    def withdraw_from_pot(self, account_id:str, pot_id:str, amount_in_pennies:str):
         """Move money from an account into a pot. (https://monzo.com/docs/#withdraw-from-a-pot)
 
             :param account_id: The unique identifier for the account to move the money to.

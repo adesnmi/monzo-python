@@ -6,7 +6,7 @@ Used under the Apache2 license: https://github.com/orcasgit/python-fitbit
 
 """
 
-from typing import Dict
+from typing import Dict, Tuple, Callable
 import json
 import requests
 
@@ -30,9 +30,9 @@ class MonzoOauth2Client(object):
     access_token_url = request_token_url
     refresh_token_url = request_token_url
 
-    def __init__(self, client_id, client_secret, access_token=None,
-            refresh_token=None, expires_at=None, refresh_cb=None,
-            redirect_uri=None, *args, **kwargs):
+    def __init__(self, client_id:str, client_secret:str, access_token:str=None,
+            refresh_token:str=None, expires_at:float=None, refresh_cb:Callable[[str],None]=None,
+            redirect_uri:str=None, *args, **kwargs):
         """
         Create a MonzoOauth2Client object. Specify the first 7 parameters if
         you have them to access user data. Specify just the first 2 parameters
@@ -60,7 +60,7 @@ class MonzoOauth2Client(object):
         )
         self.timeout = kwargs.get("timeout", None)
 
-    def _request(self, method, url, **kwargs):
+    def _request(self, method:str, url:str, **kwargs):
         """
         A simple wrapper around requests.
         """
@@ -83,7 +83,7 @@ class MonzoOauth2Client(object):
             pass
             #raise exceptions.Timeout(*e.args)
 
-    def make_request(self, url, data=None, method=None, **kwargs):
+    def make_request(self, url:str, data:Dict=None, method:str=None, **kwargs):
         """
         Builds and makes the OAuth2 Request, catches errors
         https://docs.monzo.com/#errors
@@ -101,7 +101,7 @@ class MonzoOauth2Client(object):
 
         return self.validate_response(response)
 
-    def authorize_token_url(self, redirect_uri:str = None, **kwargs) -> Dict[str,str]:
+    def authorize_token_url(self, redirect_uri:str = None, **kwargs) -> Tuple[str,str]:
         """Step 1: Return the URL the user needs to go to in order to grant us
         authorization to look at their data.  Then redirect the user to that
         URL, open their browser to it, or tell them to copy the URL into their
@@ -117,7 +117,6 @@ class MonzoOauth2Client(object):
         return(self.session.authorization_url(self.authorization_url, **kwargs))
 
     def fetch_access_token(self, code:str, redirect_uri:str=None):
-
         """Step 2: Given the code from fitbit from step 1, call
         fitbit again and returns an access token object. Extract the needed
         information from that and save it to use in future API calls.
