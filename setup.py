@@ -10,6 +10,7 @@ setup(name='monzo',
       packages=['monzo'],
       install_requires=[
           'requests',
+          'requests-oauthlib',
           'python-dotenv'
       ],
       )
