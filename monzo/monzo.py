@@ -5,7 +5,7 @@ HTTP calls to Monzo's API endpoints.
 """
 
 from typing import Dict, List, Union, Any
-import monzo.auth
+import monzo.auth as _auth
 import string
 import random
 import webbrowser
@@ -25,9 +25,10 @@ class Monzo(object):
 
     API_URL = 'https://api.monzo.com/' #: (str): A representation of the current Monzo api url.
 
-    def __init__(self, client_id:str = None, client_secret:str= None, access_token:str = None) -> None:
+    def __init__(self, client_id:str = None, client_secret:str= None, access_token:str = None,
+                 refresh_token:str = None, expires_at:str = None, refresh_cb=lambda x: None) -> None:
         localhost = 'http://localhost'
-        self.oauth_session = monzo.auth.MonzoOauth2Client(client_id, client_secret, access_token=access_token, refresh_cb=self.update_token)
+        self.oauth_session = _auth.MonzoOauth2Client(client_id, client_secret, access_token=access_token, refresh_cb=refresh_cb)
         if not access_token:
             webbrowser.open(self.oauth_session.authorize_token_url(localhost)[0], new=2)
             auth_code = input("Input Auth code from email")
