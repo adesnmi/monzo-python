@@ -3,6 +3,7 @@
 This module contains the class `Monzo` which represents a wrapper around
 HTTP calls to Monzo's API endpoints.
 """
+
 from typing import Dict
 import monzo.auth
 import string
@@ -24,13 +25,14 @@ class Monzo(object):
 
     API_URL = 'https://api.monzo.com/' #: (str): A representation of the current Monzo api url.
 
-    def __init__(self, client_id: str, client_secret: str) -> None:
+    def __init__(self, client_id:str = None, client_secret:str= None, access_token:str = None) -> None:
         localhost = 'http://localhost'
-        self.oauth_session = monzo.auth.MonzoOauth2Client(client_id, client_secret, refresh_cb=self.update_token)
-        webbrowser.open(self.oauth_session.authorize_token_url(localhost)[0], new=2)
-        auth_code = input("Input Auth code from email")
-        self.oauth_session.fetch_access_token(auth_code, localhost)
-        self.access_token = self.oauth_session.session.token
+        self.oauth_session = monzo.auth.MonzoOauth2Client(client_id, client_secret, access_token=access_token, refresh_cb=self.update_token)
+        if not access_token:
+            webbrowser.open(self.oauth_session.authorize_token_url(localhost)[0], new=2)
+            auth_code = input("Input Auth code from email")
+            self.oauth_session.fetch_access_token(auth_code, localhost)
+            self.access_token = self.oauth_session.session.token
 
     def update_token(self,token:Dict[str,str]) -> None:
         """Updates locally stored access token

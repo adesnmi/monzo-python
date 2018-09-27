@@ -44,13 +44,13 @@ class MonzoOauth2Client(object):
 
         self.client_id, self.client_secret = client_id, client_secret
         token = {}
-        if access_token and refresh_token:
-            token.update({
-                'access_token': access_token,
-                'refresh_token': refresh_token
-            })
+        if access_token:
+            token.update({'access_token': access_token})
+        if refresh_token:
+            token.update({'refresh_token': refresh_token})
         if expires_at:
             token['expires_at'] = expires_at
+
         self.session = OAuth2Session(
             client_id,
             auto_refresh_url=self.refresh_token_url,
