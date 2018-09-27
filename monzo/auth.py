@@ -1,8 +1,8 @@
 """OAuth2 session client to handle authentication of calls to the Monzo API
 
-Adapted from the implementation for a fitbit api python clientby Orcas.inc
-Used under the Apache2 license
-https://github.com/orcasgit/python-fitbit
+Adapted from the implementation for a Fitbit API Python client by Orcas.inc
+
+Used under the Apache2 license: https://github.com/orcasgit/python-fitbit
 
 """
 
@@ -106,7 +106,9 @@ class MonzoOauth2Client(object):
         authorization to look at their data.  Then redirect the user to that
         URL, open their browser to it, or tell them to copy the URL into their
         browser.
-            - redirect_uri: url to which the response will posted.
+
+            :param redirect_uri: url to which the response will posted.
+            :rtype: A Tuple consisting of the authentication url and the state token.
         """
 
         if redirect_uri:
@@ -120,6 +122,8 @@ class MonzoOauth2Client(object):
         fitbit again and returns an access token object. Extract the needed
         information from that and save it to use in future API calls.
         the token is internally saved
+
+            :rtype: A Dictionary representation of the authentication status.
         """
         if redirect_uri:
             self.session.redirect_uri = redirect_uri
@@ -133,6 +137,8 @@ class MonzoOauth2Client(object):
         """Step 3: obtains a new access_token from the the refresh token
         obtained in step 2. Only do the refresh if there is `token_updater(),`
         which saves the token.
+
+            :rtype: A Dictionary representation of the authentication token.
         """
         token = {}
         if self.session.token_updater:
