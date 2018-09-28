@@ -23,10 +23,10 @@ class MonzoOAuth2Client(object):
     API_ENDPOINT = "https://api.monzo.com"
     API_VERSION = 1
 
-    authorization_url = AUTHORIZE_ENDPOINT
-    request_token_url = "%s/oauth2/token" % API_ENDPOINT
-    access_token_url = request_token_url
-    refresh_token_url = request_token_url
+    _authorization_url = AUTHORIZE_ENDPOINT
+    _request_token_url = "%s/oauth2/token" % API_ENDPOINT
+    _access_token_url = _request_token_url
+    _refresh_token_url = _request_token_url
 
     _localhost = 'http://localhost'
 
@@ -53,7 +53,7 @@ class MonzoOAuth2Client(object):
 
         self.session = OAuth2Session(
             client_id,
-            auto_refresh_url=self.refresh_token_url,
+            auto_refresh_url=self._refresh_token_url,
             token_updater=refresh_cb,
             token=token,
             redirect_uri=redirect_uri,
@@ -114,7 +114,7 @@ class MonzoOAuth2Client(object):
         if redirect_uri:
             self.session.redirect_uri = redirect_uri
 
-        return(self.session.authorization_url(self.authorization_url, **kwargs))
+        return(self.session.authorization_url(self._authorization_url, **kwargs))
 
     def fetch_access_token(self, code:str, redirect_uri:str=None):
         """Step 2: Given the code from fitbit from step 1, call
@@ -127,7 +127,7 @@ class MonzoOAuth2Client(object):
         if redirect_uri:
             self.session.redirect_uri = redirect_uri
         return self.session.fetch_token(
-            self.access_token_url,
+            self._access_token_url,
             username=self.client_id,
             password=self.client_secret,
             code=code)
@@ -142,7 +142,7 @@ class MonzoOAuth2Client(object):
         token = {}
         if self.session.token_updater:
             token = self.session.refresh_token(
-                self.refresh_token_url,
+                self._refresh_token_url,
                 auth=HTTPBasicAuth(self.client_id, self.client_secret)
             )
             self.session.token_updater(token)
