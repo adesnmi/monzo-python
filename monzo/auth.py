@@ -17,9 +17,6 @@ from monzo.errors import (BadRequestError, UnauthorizedError, ForbiddenError,
 MethodNotAllowedError, PageNotFoundError, NotAcceptibleError,TooManyRequestsError,
 InternalServerError, GatewayTimeoutError)
 
-def print_token(token:Dict[str,str])-> Dict[str,str]:
-    print(token)
-
 class MonzoOAuth2Client(object):
     AUTHORIZE_ENDPOINT = "https://auth.monzo.com"
     API_ENDPOINT = "https://api.monzo.com"
