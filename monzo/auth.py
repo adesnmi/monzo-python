@@ -1,8 +1,9 @@
 """OAuth2 session client to handle authentication of calls to the Monzo API
 
-Adapted from the implementation for a Fitbit API Python client by Orcas.inc
+Adapted from the implementation for a Fitbit API Python client by Orcas, Inc.
+and used under the Apache2 license: https://www.apache.org/licenses/LICENSE-2.0
 
-Used under the Apache2 license: https://github.com/orcasgit/python-fitbit
+Original code may be found at: https://github.com/orcasgit/python-fitbit
 
 """
 
