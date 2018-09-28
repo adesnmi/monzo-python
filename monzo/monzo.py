@@ -25,14 +25,22 @@ class Monzo(object):
 
     API_URL = 'https://api.monzo.com/' #: (str): A representation of the current Monzo api url.
 
-    def __init__(self, client_id:str = None, client_secret:str= None, access_token:str = None,
-                 refresh_token:str = None, expires_at:str = None, refresh_cb=lambda x: None) -> None:
-        self.oauth_session = _auth.MonzoOauth2Client(client_id, client_secret, access_token=access_token, refresh_cb=refresh_cb)
-        if not access_token:
-            webbrowser.open(self.oauth_session.authorize_token_url()[0], new=2)
-            auth_code = input("Input Auth code from email")
-            self.oauth_session.fetch_access_token(auth_code)
-            self.access_token = self.oauth_session.session.token
+    def __init__(self, access_token:str) -> None:
+        # Starts an OAuth session with just an access token
+        # This will fail once the token expires
+        # For a longer-lived session use Monzo.new_oauth_session()
+        self.oauth_session = _auth.MonzoOauth2Client(None, None, access_token=access_token)
+
+    @classmethod
+    def from_oauth_session(cls, oauth:_auth.MonzoOauth2Client) -> 'Monzo':
+        """Inserts an existing MonzoOauth2Client into this Monzo object
+
+            :param oauth: The MonzoOauth2Client to be used by the newly created Monzo object.
+            :rtype: A new Monzo object
+        """
+        new_monzo = cls(None)
+        new_monzo.oauth_session = oauth
+        return(new_monzo)
 
     def update_token(self,token:Dict[str,str]) -> None:
         """Updates locally stored access token
