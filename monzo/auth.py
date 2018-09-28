@@ -6,7 +6,7 @@ Used under the Apache2 license: https://github.com/orcasgit/python-fitbit
 
 """
 
-from typing import Dict, Tuple, Callable
+from typing import Dict, Tuple, Callable, Any
 import json
 import requests
 
@@ -31,7 +31,7 @@ class MonzoOauth2Client(object):
     refresh_token_url = request_token_url
 
     def __init__(self, client_id:str, client_secret:str, access_token:str=None,
-            refresh_token:str=None, expires_at:float=None, refresh_cb:Callable[[str],None]=None,
+            refresh_token:str=None, expires_at:float=None, refresh_cb:Callable[[Dict[str,str]],Any]=lambda x: None,
             redirect_uri:str=None, *args, **kwargs):
         """
         Create a MonzoOauth2Client object. Specify the first 7 parameters if
@@ -149,7 +149,7 @@ class MonzoOauth2Client(object):
 
         return token
 
-    def validate_response(self, response):
+    def validate_response(self, response:requests.request):
         """Validate the response and raises any appropriate errors.
            https://docs.monzo.com/#errors
 
