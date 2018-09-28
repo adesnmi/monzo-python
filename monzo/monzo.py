@@ -29,13 +29,13 @@ class Monzo(object):
         # Starts an OAuth session with just an access token
         # This will fail once the token expires
         # For a longer-lived session use Monzo.new_oauth_session()
-        self.oauth_session = _auth.MonzoOauth2Client(None, None, access_token=access_token)
+        self.oauth_session = _auth.MonzoOAuth2Client(None, None, access_token=access_token)
 
     @classmethod
-    def from_oauth_session(cls, oauth:_auth.MonzoOauth2Client) -> 'Monzo':
-        """Inserts an existing MonzoOauth2Client into this Monzo object
+    def from_oauth_session(cls, oauth:_auth.MonzoOAuth2Client) -> 'Monzo':
+        """Inserts an existing MonzoOAuth2Client into this Monzo object
 
-            :param oauth: The MonzoOauth2Client to be used by the newly created Monzo object.
+            :param oauth: The MonzoOAuth2Client to be used by the newly created Monzo object.
             :rtype: A new Monzo object
         """
         new_monzo = cls(None)

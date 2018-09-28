@@ -20,7 +20,7 @@ InternalServerError, GatewayTimeoutError)
 def print_token(token:Dict[str,str])-> Dict[str,str]:
     print(token)
 
-class MonzoOauth2Client(object):
+class MonzoOAuth2Client(object):
     AUTHORIZE_ENDPOINT = "https://auth.monzo.com"
     API_ENDPOINT = "https://api.monzo.com"
     API_VERSION = 1
@@ -36,7 +36,7 @@ class MonzoOauth2Client(object):
             refresh_token:str=None, expires_at:float=None, refresh_cb:Callable[[Dict[str,str]],Any]=lambda x: None,
             redirect_uri:str=_localhost, *args, **kwargs):
         """
-        Create a MonzoOauth2Client object. Specify the first 7 parameters if
+        Create a MonzoOAuth2Client object. Specify the first 7 parameters if
         you have them to access user data. Specify just the first 2 parameters
         to start the setup for user authorization (as an example see gather_key_oauth2.py)
             - client_id, client_secret are in the app configuration page
