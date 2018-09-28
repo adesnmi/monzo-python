@@ -30,9 +30,11 @@ class MonzoOauth2Client(object):
     access_token_url = request_token_url
     refresh_token_url = request_token_url
 
+    _localhost = 'http://localhost'
+
     def __init__(self, client_id:str, client_secret:str, access_token:str=None,
             refresh_token:str=None, expires_at:float=None, refresh_cb:Callable[[Dict[str,str]],Any]=lambda x: None,
-            redirect_uri:str=None, *args, **kwargs):
+            redirect_uri:str=_localhost, *args, **kwargs):
         """
         Create a MonzoOauth2Client object. Specify the first 7 parameters if
         you have them to access user data. Specify just the first 2 parameters
