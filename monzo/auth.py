@@ -100,7 +100,7 @@ class MonzoOAuth2Client(object):
 
         return self.validate_response(response)
 
-    def authorize_token_url(self, redirect_uri = None, **kwargs) -> Tuple[str,str]:
+    def authorize_token_url(self, redirect_uri = None, **kwargs):
         """Step 1: Return the URL the user needs to go to in order to grant us
         authorization to look at their data.  Then redirect the user to that
         URL, open their browser to it, or tell them to copy the URL into their
