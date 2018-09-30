@@ -213,8 +213,23 @@ class Monzo(object):
         """
         url = "{0}/pots".format(self.API_URL)
         response = self.oauth_session.make_request(url)
-        return response
+        return response['pots']
 
+    def get_pot(self, pot_id):
+        """Get pots for a user. (https://monzo.com/docs/#list-pots)
+
+           :rtype: A Dictionary representation of pot.
+
+        """
+        pots = self.get_pots()
+        return(next((pot for pot in pots if pot['id'] == pot_id), None))
+
+    def get_open_pots(self):
+        """Get all open pots for a user. (https://monzo.com/docs/#list-pots)
+
+           :rtype: A collection of open pots for a user.
+        """
+        return([pot for pot in self.get_pots() if (pot['deleted'] == False)])
 
     def deposit_into_pot(self, pot_id, account_id, amount_in_pennies):
         """Move money from an account into a pot. (https://monzo.com/docs/#deposit-into-a-pot)
