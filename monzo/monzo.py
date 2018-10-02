@@ -5,6 +5,7 @@ HTTP calls to Monzo's API endpoints.
 """
 
 from monzo.auth import MonzoOAuth2Client
+from monzo.account import Account, Pot
 import string
 import random
 
@@ -62,7 +63,8 @@ class Monzo(object):
         """
         url = "{0}/accounts".format(self.API_URL)
         response = self.oauth_session.make_request(url)
-        return response
+        accounts = [Account(acc) for acc in response['accounts']]
+        return accounts
 
     def get_first_account(self):
         """Gets the first account for a user.
@@ -71,9 +73,9 @@ class Monzo(object):
 
         """
         accounts = self.get_accounts()
-        if len(accounts['accounts']) <= 0:
+        if len(accounts) <= 0:
             raise LookupError('There are no accounts associated with this user.')
-        return accounts['accounts'][0]
+        return accounts[0]
 
     def get_transactions(self, account_id):
         """Get all transactions of a given account. (https://monzo.com/docs/#list-transactions)
@@ -213,7 +215,9 @@ class Monzo(object):
         """
         url = "{0}/pots".format(self.API_URL)
         response = self.oauth_session.make_request(url)
-        return response['pots']
+        pots_dict_list = response['pots']
+        pots = [Pot(pot) for pot in pots_dict_list]
+        return pots
 
     def get_pot(self, pot_id):
         """Get pots for a user. (https://monzo.com/docs/#list-pots)
@@ -229,7 +233,7 @@ class Monzo(object):
 
            :rtype: A collection of open pots for a user.
         """
-        return([pot for pot in self.get_pots() if (pot['deleted'] == False)])
+        return([pot for pot in self.get_pots() if (pot.is_open() == True)])
 
     def deposit_into_pot(self, pot_id, account_id, amount_in_pennies):
         """Move money from an account into a pot. (https://monzo.com/docs/#deposit-into-a-pot)
