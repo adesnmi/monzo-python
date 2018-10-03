@@ -240,3 +240,14 @@ class Monzo(object):
         response = self.request.put(url, headers=self.headers, data=data)
         return response
 
+    def update_transaction_notes(self, transaction_id, notes):
+        """Update notes for a given transaction. (https://monzo.com/docs/#annotate-transaction)
+
+           :param transaction_id: The unique identifier for the transaction for which notes should be updated.
+           :rtype: The updated transaction object.
+        """
+        url = "{0}/transactions/{1}".format(self.API_URL, transaction_id)
+        data = {"metadata[notes]": notes}
+        response = self.request.patch(url, headers=self.headers, data=data)
+        return response
+
