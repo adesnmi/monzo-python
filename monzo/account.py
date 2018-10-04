@@ -44,3 +44,6 @@ class Pot(dict):
 
     def has_goal(self):
         return('goal_amount' in self.keys())
+
+    def reached_goal(self):
+        return(self['goal_amount'] <= self['balance'])
