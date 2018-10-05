@@ -81,3 +81,12 @@ class TestApiEndpoints:
                                             url='blah',
                                             params=params)
         assert feed_item is not None
+
+    def test_update_transaction_metadata(self, client):
+        account_id = client.get_first_account()['id']
+        transactions = client.get_transactions(account_id)
+        first_transaction_id = transactions['transactions'][0]['id']
+        updated_transaction = client.update_transaction_metadata(transaction_id=first_transaction_id,
+                                           key = 'keyvalue',
+                                           value='does not matter')
+        assert updated_transaction is not None

@@ -251,3 +251,24 @@ class Monzo(object):
 
         response = self.oauth_session.make_request(url, data=data, method='PUT')
         return response
+
+
+    def update_transaction_metadata(self, transaction_id, key, value):
+        """Update a metadata key value pair for a given transaction. (https://monzo.com/docs/#annotate-transaction)
+           :param transaction_id: The unique identifier for the transaction for which notes should be updated.
+           :param key: The key for the element of metadata to be updated.
+           :param value: The value to be associated with the given key.
+           :rtype: The updated transaction object.
+        """
+        url = "{0}/transactions/{1}".format(self.API_URL, transaction_id)
+        data = {'metadata['+key+']': value}
+        response = self.oauth_session.make_request(url, data=data, method='PATCH')
+        return response
+
+    def update_transaction_notes(self, transaction_id, notes):
+        """Update notes for a given transaction. (https://monzo.com/docs/#annotate-transaction)
+           :param transaction_id: The unique identifier for the transaction for which notes should be updated.
+           :param notes: The new notes to be attached to the transaction.
+           :rtype: The updated transaction object.
+        """
+        return(self.update_transaction_metadata(transaction_id, 'notes', notes))
