@@ -7,7 +7,6 @@ HTTP calls to Monzo's API endpoints.
 import monzo.auth as _auth
 import string
 import random
-import webbrowser
 
 class Monzo(object):
     """The class representation of Monzo's API endpoints.
@@ -25,9 +24,12 @@ class Monzo(object):
     API_URL = 'https://api.monzo.com/' #: (str): A representation of the current Monzo api url.
 
     def __init__(self, access_token):
-        # Starts an OAuth session with just an access token
-        # This will fail once the token expires
-        # For a longer-lived session use Monzo.new_oauth_session()
+        """Starts an OAuth session with just an access token
+           This will fail once the token expires,
+           for a longer-lived session use Monzo.from_oauth_session()
+
+           :param access_token: A valid access token from https://developers.monzo.com/
+        """
         self.oauth_session = _auth.MonzoOAuth2Client(None, None, access_token=access_token)
 
     @classmethod
