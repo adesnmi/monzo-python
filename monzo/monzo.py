@@ -6,6 +6,7 @@ HTTP calls to Monzo's API endpoints.
 from monzo.request import Request
 import string
 import random
+import datetime
 
 class Monzo(object):
     """The class representation of Monzo's API endpoints.
@@ -57,15 +58,18 @@ class Monzo(object):
             raise LookupError('There are no accounts associated with this user.')
         return accounts['accounts'][0]
 
-    def get_transactions(self, account_id):
+    def get_transactions(self, account_id, parse_datetimes=True):
         """Get all transactions of a given account. (https://monzo.com/docs/#list-transactions)
 
            :param account_id: The unique identifier for the account which the transactions belong to.
+           :param parse_datetimes: Enable parsing of timestamp strings to datetime objects.
            :rtype: A collection of transaction objects for specific user.
         """
         url = "{0}/transactions".format(self.API_URL)
         params = {'expand[]': 'merchant', 'account_id': account_id}
         response = self.request.get(url, headers=self.headers, params=params)
+        if parse_datetimes:
+            response = self.parse_datetimes(response)
         return response
 
     def get_balance(self, account_id):
@@ -239,4 +243,26 @@ class Monzo(object):
 
         response = self.request.put(url, headers=self.headers, data=data)
         return response
+
+    def parse_datetimes(self, transactions):
+        """Parse timestamp strings to datetime objects.
+
+           :param transactions: The response from `get_transactions`.
+           :rtype: The collection of transaction objects with datetimes parsed.
+        """
+        for txn in transactions['transactions']:
+            for (key, value) in txn.items():
+                try:
+                    time_string = value[:-1]
+                    time_components = time_string.split('.')
+                    time = datetime.datetime.strptime(time_components[0] , "%Y-%m-%dT%H:%M:%S")
+                    if len(time_components) > 1:
+                        time += datetime.timedelta(milliseconds=int(time_components[1].zfill(3)))
+                    txn[key] = time
+                except:
+                    if key in ('created', 'updated'):
+                        raise
+                    if key == 'settled' and value == '': # https://github.com/monzo/docs/pull/59
+                        continue
+        return transactions
 

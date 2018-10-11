@@ -1,4 +1,5 @@
 import pytest
+import datetime
 from doubles.monzo import Monzo
 
 class TestApiEndpoints:
@@ -18,6 +19,12 @@ class TestApiEndpoints:
         account_id = client.get_first_account()['id']
         transactions = client.get_transactions(account_id)
         assert transactions['transactions'] is not None
+
+    def test_datetime_parsing(self, client):
+        account_id = client.get_first_account()['id']
+        transactions = client.get_transactions(account_id)
+        for txn in transactions['transactions']:
+            assert isinstance(txn['created'], datetime.datetime)
 
     def test_get_balance(self, client):
         account_id = client.get_first_account()['id']
