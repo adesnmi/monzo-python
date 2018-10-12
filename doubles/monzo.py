@@ -1,5 +1,6 @@
 """A replacement for monzo.monzo.Monzo for testing puropses
 """
+from monzo import utils
 
 class Monzo(object):
     """The stubbed out class representation of the Monzo client
@@ -45,13 +46,13 @@ class Monzo(object):
         accounts = self.get_accounts()
         return accounts['accounts'][0]
 
-    def get_transactions(self, account_id):
+    def get_transactions(self, account_id, parse_datetimes=True):
         """Get all transactions of a given account. (https://monzo.com/docs/#list-transactions)
 
            :param account_id: The unique identifier for the account which the transactions belong to.
            :rtype: A stubbed collection of transaction objects for specific user.
         """
-        return {
+        response = {
             "transactions": [
                 {
                     "account_balance": 13013,
@@ -83,6 +84,9 @@ class Monzo(object):
                 },
             ]
         }
+        if parse_datetimes:
+            return utils.parse_datetimes(response)
+        return response
 
     def get_balance(self, account_id):
         """Gets the balance of a given account. (https://monzo.com/docs/#read-balance)
