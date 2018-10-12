@@ -19,13 +19,13 @@ def parse_transaction_datetimes(transaction):
                 raise
             if key == 'settled' and value == '': # https://github.com/monzo/docs/pull/59
                 continue
-    return transactions
+    return transaction
 
 def parse_datetimes_for_all(transactions):
-    """Parse all timestamp strings in a transaction to datetime objects.
+    """Parse timestamp strings in all transactions to datetime objects.
 
        :param transactions: The response from `get_transactions()`.
-       :rtype: The transaction with datetimes parsed.
+       :rtype: The transactions with datetimes parsed.
     """
     for transaction in transactions['transactions']:
         transaction = parse_transaction_datetimes(transaction)
