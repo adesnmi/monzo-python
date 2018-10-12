@@ -7,7 +7,6 @@ from monzo.request import Request
 from monzo import utils
 import string
 import random
-import datetime
 
 class Monzo(object):
     """The class representation of Monzo's API endpoints.
