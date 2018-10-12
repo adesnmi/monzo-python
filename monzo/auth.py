@@ -30,15 +30,21 @@ class MonzoOAuth2Client(object):
     _localhost = 'http://localhost'
 
     def __init__(self, client_id, client_secret, access_token=None,
-            refresh_token=None, expires_at=None, refresh_cb=lambda x: None,
+            refresh_token=None, expires_at=None, refresh_callback=lambda x: None,
             redirect_uri=_localhost, *args, **kwargs):
         """
-        Create a MonzoOAuth2Client object. Specify the first 7 parameters if
-        you have them to access user data. Specify just the first 2 parameters
-        to start the setup for user authorization (as an example see gather_key_oauth2.py)
-            - client_id, client_secret are in the app configuration page
-            https://developers.monzo.com/
-            - access_token, refresh_token are obtained after the user grants permission
+        Create a MonzoOAuth2Client object.
+        Specify the first 7 parameters if you have them to access user data.
+        Specify just the first 2 parameters to start the setup for user authorization
+        (These are generated at https://developers.monzo.com/)
+            
+            :param client_id: Client id string as given by Monzo Developer website
+            :param client_secret: Client secret string as given by Monzo Developer website
+            :param access_token: String token needed to access Monzo API
+            :param refresh_token: String token used to refresh expired access token.
+            :param expires_at: Unix time representation of access token expiry
+            :param refresh_callback: Callback function for when access token is refreshed
+            :param redirect_uri: URL to which user is redirected to after authentication by Monzo
         """
 
         self.client_id, self.client_secret = client_id, client_secret
@@ -53,7 +59,7 @@ class MonzoOAuth2Client(object):
         self.session = OAuth2Session(
             client_id,
             auto_refresh_url=self._refresh_token_url,
-            token_updater=refresh_cb,
+            token_updater=refresh_callback,
             token=token,
             redirect_uri=redirect_uri,
         )
