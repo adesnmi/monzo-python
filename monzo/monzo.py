@@ -4,6 +4,7 @@ This module contains the class `Monzo` which represents a wrapper around
 HTTP calls to Monzo's API endpoints.
 """
 from monzo.request import Request
+from datetime import datetime
 import string
 import random
 
@@ -57,14 +58,22 @@ class Monzo(object):
             raise LookupError('There are no accounts associated with this user.')
         return accounts['accounts'][0]
 
-    def get_transactions(self, account_id):
+    def get_transactions(self, account_id, before=None, since=None, limit=None):
         """Get all transactions of a given account. (https://monzo.com/docs/#list-transactions)
 
            :param account_id: The unique identifier for the account which the transactions belong to.
+           :param before: A datetime representing the time of the earliest transaction to return (Can't take transaction id as input)
+           :param since: A datetime representing the time of the earliest transaction to return. (Can also take a transaction id)
+           :param limit: The maximum number of transactions to return (Max = 100)
            :rtype: A collection of transaction objects for specific user.
         """
+        if isinstance(before, datetime):
+            before = before.isoformat() + 'Z'
+        if isinstance(since, datetime):
+            since = since.isoformat() + 'Z'
         url = "{0}/transactions".format(self.API_URL)
-        params = {'expand[]': 'merchant', 'account_id': account_id}
+        params = {'expand[]': 'merchant', 'account_id': account_id,
+                  'before': before, 'since': since, 'limit': limit}
         response = self.request.get(url, headers=self.headers, params=params)
         return response
 
