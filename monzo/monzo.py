@@ -5,6 +5,7 @@ HTTP calls to Monzo's API endpoints.
 """
 from monzo.request import Request
 from datetime import datetime
+from functools import partial
 import string
 import random
 
@@ -75,6 +76,13 @@ class Monzo(object):
         params = {'expand[]': 'merchant', 'account_id': account_id,
                   'before': before, 'since': since, 'limit': limit}
         response = self.request.get(url, headers=self.headers, params=params)
+        if any([before,since,limit]):
+            last_transaction_id = response['transactions'][-1]['id']
+            next_page = partial(self.get_transactions, account_id,
+                                before=before, since = last_transaction_id,
+                                limit = limit)
+            response.update({'next_page':next_page})
+
         return response
 
     def get_balance(self, account_id):
