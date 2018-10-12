@@ -85,7 +85,7 @@ class Monzo(object):
             ]
         }
         if parse_datetimes:
-            return utils.parse_datetimes(response)
+            return utils.parse_datetimes_for_all(response)
         return response
 
     def get_balance(self, account_id):

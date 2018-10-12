@@ -69,7 +69,7 @@ class Monzo(object):
         params = {'expand[]': 'merchant', 'account_id': account_id}
         response = self.request.get(url, headers=self.headers, params=params)
         if parse_datetimes:
-            response = utils.parse_datetimes(response)
+            response = utils.parse_datetimes_for_all(response)
         return response
 
     def get_balance(self, account_id):
