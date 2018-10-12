@@ -116,8 +116,8 @@ class MonzoOAuth2Client(object):
         return(self.session.authorization_url(self._authorization_url, **kwargs))
 
     def fetch_access_token(self, code, redirect_uri=None):
-        """Step 2: Given the code from fitbit from step 1, call
-        fitbit again and returns an access token object. Extract the needed
+        """Step 2: Given the code from Monzo from step 1, call
+        Monzo again and returns an access token object. Extract the needed
         information from that and save it to use in future API calls.
         the token is internally saved
 
