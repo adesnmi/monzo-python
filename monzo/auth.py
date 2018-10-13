@@ -17,6 +17,8 @@ from monzo.utils import save_token_to_file
 from monzo.errors import (BadRequestError, UnauthorizedError, ForbiddenError,
 MethodNotAllowedError, PageNotFoundError, NotAcceptibleError,TooManyRequestsError,
 InternalServerError, GatewayTimeoutError)
+from monzo.const import (CLIENT_ID, CLIENT_SECRET,
+    ACCESS_TOKEN, REFRESH_TOKEN, EXPIRES_AT)
 
 class MonzoOAuth2Client(object):
     AUTHORIZE_ENDPOINT = "https://auth.monzo.com"
@@ -51,11 +53,11 @@ class MonzoOAuth2Client(object):
         self.client_id, self.client_secret = client_id, client_secret
         token = {}
         if access_token:
-            token.update({'access_token': access_token})
+            token.update({ACCESS_TOKEN: access_token})
         if refresh_token:
-            token.update({'refresh_token': refresh_token})
+            token.update({REFRESH_TOKEN: refresh_token})
         if expires_at:
-            token['expires_at'] = expires_at
+            token[EXPIRES_AT] = expires_at
 
         self.session = OAuth2Session(
             client_id,
@@ -150,7 +152,7 @@ class MonzoOAuth2Client(object):
             auth=HTTPBasicAuth(self.client_id, self.client_secret)
             )
 
-        token.update({'client_secret': self.client_secret})
+        token.update({CLIENT_SECRET: self.client_secret})
 
         if self.session.token_updater:
             self.session.token_updater(token)
