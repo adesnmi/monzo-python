@@ -13,12 +13,12 @@ import requests
 from requests.auth import HTTPBasicAuth
 from requests_oauthlib import OAuth2Session
 
-from monzo.utils import save_token_to_file
+from monzo.utils import save_token_to_file, load_token_from_file
 from monzo.errors import (BadRequestError, UnauthorizedError, ForbiddenError,
 MethodNotAllowedError, PageNotFoundError, NotAcceptibleError,TooManyRequestsError,
 InternalServerError, GatewayTimeoutError)
 from monzo.const import (CLIENT_ID, CLIENT_SECRET,
-    ACCESS_TOKEN, REFRESH_TOKEN, EXPIRES_AT)
+    ACCESS_TOKEN, REFRESH_TOKEN, EXPIRES_AT, MONZO_CACHE_FILE)
 
 class MonzoOAuth2Client(object):
     AUTHORIZE_ENDPOINT = "https://auth.monzo.com"
@@ -40,7 +40,7 @@ class MonzoOAuth2Client(object):
         Specify the first 7 parameters if you have them to access user data.
         Specify just the first 2 parameters to start the setup for user authorization
         (These are generated at https://developers.monzo.com/)
-            
+
             :param client_id: Client id string as given by Monzo Developer website
             :param client_secret: Client secret string as given by Monzo Developer website
             :param access_token: String token needed to access Monzo API
@@ -67,6 +67,26 @@ class MonzoOAuth2Client(object):
             redirect_uri=redirect_uri,
         )
         self.timeout = kwargs.get("timeout", None)
+
+    @classmethod
+    def from_json(cls,
+                  filename=MONZO_CACHE_FILE,
+                  refresh_callback=save_token_to_file):
+        token = load_token_from_file(filename)
+        client_id = token.get(CLIENT_ID)
+        client_secret = token.get(CLIENT_SECRET)
+        access_token = token.get(ACCESS_TOKEN)
+        refresh_token = token.get(REFRESH_TOKEN)
+        expires_at = token.get(EXPIRES_AT)
+
+        # Check if file contains information for a valid OAuth session
+        if access_token or all(client_id, client_secret):
+            return MonzoOAuth2Client(client_id, client_secret,
+                                     access_token=access_token,
+                                     refresh_token=refresh_token,
+                                     expires_at=expires_at,
+                                     refresh_cb=refresh_callback)
+
 
     def _request(self, method, url, **kwargs):
         """
