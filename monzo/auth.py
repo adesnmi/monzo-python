@@ -13,6 +13,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 from requests_oauthlib import OAuth2Session
 
+from monzo.utils import save_token_to_file
 from monzo.errors import (BadRequestError, UnauthorizedError, ForbiddenError,
 MethodNotAllowedError, PageNotFoundError, NotAcceptibleError,TooManyRequestsError,
 InternalServerError, GatewayTimeoutError)
@@ -30,7 +31,7 @@ class MonzoOAuth2Client(object):
     _localhost = 'http://localhost'
 
     def __init__(self, client_id, client_secret, access_token=None,
-            refresh_token=None, expires_at=None, refresh_callback=lambda x: None,
+            refresh_token=None, expires_at=None, refresh_callback=save_token_to_file,
             redirect_uri=_localhost, *args, **kwargs):
         """
         Create a MonzoOAuth2Client object.
@@ -144,12 +145,14 @@ class MonzoOAuth2Client(object):
 
             :rtype: A Dictionary representation of the authentication token.
         """
-        token = {}
-        if self.session.token_updater:
-            token = self.session.refresh_token(
-                self._refresh_token_url,
-                auth=HTTPBasicAuth(self.client_id, self.client_secret)
+        token = self.session.refresh_token(
+            self._refresh_token_url,
+            auth=HTTPBasicAuth(self.client_id, self.client_secret)
             )
+
+        token.update({'client_secret': self.client_secret})
+
+        if self.session.token_updater:
             self.session.token_updater(token)
 
         return token
