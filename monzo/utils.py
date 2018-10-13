@@ -1,5 +1,5 @@
 import json
-from Monzo.utils import MONZO_CACHE_FILE
+from monzo.const import MONZO_CACHE_FILE
 
 def save_token_to_file(token, filename=MONZO_CACHE_FILE):
     with open(filename, 'w') as fp:
