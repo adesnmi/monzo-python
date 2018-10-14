@@ -96,20 +96,17 @@ class MonzoOAuth2Client(object):
             kwargs['timeout'] = self.timeout
 
         try:
-            response = self.session.request(method, url, **kwargs)
+            response = self.validate_response(
+                self.session.request(method, url, **kwargs))
 
-            # If our current token has no expires_at, or something manages to slip
-            # through that check
-            if response.status_code == 401:
-                d = json.loads(response.content.decode('utf8'))
-                if d['errors'][0]['errorType'] == 'expired_token':
-                    self.refresh_token()
-                    response = self.session.request(method, url, **kwargs)
+        # If our current token has no expires_at, or something manages to slip
+        # through that check
+        except UnauthorizedError as e:
+            self.refresh_token()
+            response = self._request(method, url, **kwargs)
 
-            return response
-        except requests.Timeout as e:
-            pass
-            #raise exceptions.Timeout(*e.args)
+        return response
+
 
     def make_request(self, url, data=None, method=None, **kwargs):
         """
@@ -127,7 +124,7 @@ class MonzoOAuth2Client(object):
             **kwargs
         )
 
-        return self.validate_response(response)
+        return response
 
     def authorize_token_url(self, redirect_uri = None, **kwargs):
         """Step 1: Return the URL the user needs to go to in order to grant us
