@@ -154,11 +154,16 @@ class MonzoOAuth2Client(object):
         """
         if redirect_uri:
             self.session.redirect_uri = redirect_uri
-        return self.session.fetch_token(
+        token = self.session.fetch_token(
             self._access_token_url,
             username=self.client_id,
             password=self.client_secret,
             code=code)
+        
+        if self.session.token_updater:
+            self.session.token_updater(token)
+        
+        return token
 
     def refresh_token(self):
         """Step 3: obtains a new access_token from the the refresh token
