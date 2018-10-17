@@ -46,7 +46,7 @@ class Monzo(object):
         accounts = self.get_accounts()
         return accounts['accounts'][0]
 
-    def get_transactions(self, account_id, parse_datetimes=True):
+    def get_transactions(self, account_id, parse_datetimes=False):
         """Get all transactions of a given account. (https://monzo.com/docs/#list-transactions)
 
            :param account_id: The unique identifier for the account which the transactions belong to.
