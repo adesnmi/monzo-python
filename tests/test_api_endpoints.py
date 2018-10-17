@@ -22,7 +22,7 @@ class TestApiEndpoints:
 
     def test_datetime_parsing(self, client):
         account_id = client.get_first_account()['id']
-        transactions = client.get_transactions(account_id)
+        transactions = client.get_transactions(account_id, parse_datetimes=True)
         for txn in transactions['transactions']:
             assert isinstance(txn['created'], datetime.datetime)
 
