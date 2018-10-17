@@ -57,16 +57,17 @@ class Monzo(object):
             raise LookupError('There are no accounts associated with this user.')
         return accounts['accounts'][0]
 
-    def get_transactions(self, account_id):
+    def get_transactions(self, account_id, latest_first=False):
         """Get all transactions of a given account. (https://monzo.com/docs/#list-transactions)
 
            :param account_id: The unique identifier for the account which the transactions belong to.
+           :param latest_first: Order by most recent transaction first if True, else oldest transaction first.
            :rtype: A collection of transaction objects for specific user.
         """
         url = "{0}/transactions".format(self.API_URL)
         params = {'expand[]': 'merchant', 'account_id': account_id}
         response = self.request.get(url, headers=self.headers, params=params)
-        return response
+        return response.reverse() if latest_first else response
 
     def get_balance(self, account_id):
         """Gets the balance of a given account. (https://monzo.com/docs/#read-balance)
