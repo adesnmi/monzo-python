@@ -69,6 +69,13 @@ class MonzoOAuth2Client(object):
     def from_json(cls,
                   filename=MONZO_CACHE_FILE,
                   refresh_callback=save_token_to_file):
+        """Loads a MonzoOAuth2Client object from a json representation of the
+           client credentials and token from a file.
+
+           :param filename: Path to file from which to load information
+           :param refresh_callback: Callback function for when access token is refreshed
+           :rtype: MonzoOAuth2Client object as defined in loaded file
+        """
         token = load_token_from_file(filename)
         client_id = token.get(CLIENT_ID)
         client_secret = token.get(CLIENT_SECRET)
