@@ -84,38 +84,24 @@ class MonzoOAuth2Client(object):
                                      expires_at=expires_at,
                                      refresh_cb=refresh_callback)
 
-
-    def _request(self, method, url, **kwargs):
-        """
-        A simple wrapper around requests.
-        """
-        if self.timeout is not None and 'timeout' not in kwargs:
-            kwargs['timeout'] = self.timeout
-
-        try:
-            response = self.validate_response(
-                self.session.request(method, url, **kwargs))
-
-        except (UnauthorizedError,TokenExpiredError) as e:
-            self.refresh_token()
-            response = self._request(method, url, **kwargs)
-
-        return response
-
-
     def make_request(self, url, data=None, method=None, **kwargs):
         """
         Builds and makes the OAuth2 Request, catches errors
         https://docs.monzo.com/#errors
         """
+        if self.timeout is not None and 'timeout' not in kwargs:
+            kwargs['timeout'] = self.timeout
+
         data = data or {}
         method = method or ('POST' if data else 'GET')
-        response = self._request(
-            method,
-            url,
-            data=data,
-            **kwargs
-        )
+
+        try:
+            response = self.validate_response(
+                self.session.request(method, url, data=data, **kwargs))
+
+        except (UnauthorizedError,TokenExpiredError) as e:
+            self.refresh_token()
+            response = self.make_request(url, data=data, method=method, **kwargs)
 
         return response
 
