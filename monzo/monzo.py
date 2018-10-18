@@ -134,6 +134,7 @@ class Monzo(object):
         """
         url = "{0}/webhooks".format(self.API_URL)
         response = self.request.post(url, headers=self.headers, data={'account_id': account_id, 'url': webhook_url})
+        return response
 
     def register_attachment(self, transaction_id, file_url, file_type):
         """Attaches an image to a transaction. (https://monzo.com/docs/#register-attachment)
