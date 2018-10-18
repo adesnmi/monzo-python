@@ -7,9 +7,6 @@ Original code may be found at: https://github.com/orcasgit/python-fitbit
 
 """
 
-import json
-import requests
-
 from requests.auth import HTTPBasicAuth
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import TokenExpiredError
