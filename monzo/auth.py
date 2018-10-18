@@ -114,7 +114,6 @@ class MonzoOAuth2Client(object):
             :param redirect_uri: url to which the response will posted.
             :rtype: A Tuple consisting of the authentication url and the state token.
         """
-
         if redirect_uri:
             self.session.redirect_uri = redirect_uri
 
@@ -136,10 +135,10 @@ class MonzoOAuth2Client(object):
             username=self.client_id,
             password=self.client_secret,
             code=code)
-        
+
         if self.session.token_updater:
             self.session.token_updater(token)
-        
+
         return token
 
     def refresh_token(self):
