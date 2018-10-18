@@ -30,7 +30,9 @@ class Monzo(object):
 
            :param access_token: A valid access token from https://developers.monzo.com/
         """
-        self.oauth_session = MonzoOAuth2Client(None, None, access_token=access_token)
+        self.oauth_session = MonzoOAuth2Client(None,
+                                               None,
+                                               access_token=access_token)
 
     @classmethod
     def from_oauth_session(cls, oauth):
@@ -41,7 +43,7 @@ class Monzo(object):
         """
         new_monzo = cls(None)
         new_monzo.oauth_session = oauth
-        return(new_monzo)
+        return new_monzo
 
     def whoami(self):
         """Gives information about an access token. (https://monzo.com/docs/#authenticating-requests)
@@ -273,4 +275,4 @@ class Monzo(object):
            :param notes: The new notes to be attached to the transaction.
            :rtype: The updated transaction object.
         """
-        return(self.update_transaction_metadata(transaction_id, 'notes', notes))
+        return self.update_transaction_metadata(transaction_id, 'notes', notes)
