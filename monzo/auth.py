@@ -16,8 +16,8 @@ from oauthlib.oauth2 import TokenExpiredError
 
 from monzo.utils import save_token_to_file, load_token_from_file
 from monzo.errors import (BadRequestError, UnauthorizedError, ForbiddenError,
-MethodNotAllowedError, PageNotFoundError, NotAcceptibleError,TooManyRequestsError,
-InternalServerError, GatewayTimeoutError)
+MethodNotAllowedError, PageNotFoundError, NotAcceptibleError,
+TooManyRequestsError,InternalServerError, GatewayTimeoutError)
 from monzo.const import (CLIENT_ID, CLIENT_SECRET,
     ACCESS_TOKEN, REFRESH_TOKEN, EXPIRES_AT, MONZO_CACHE_FILE)
 
@@ -27,7 +27,7 @@ class MonzoOAuth2Client(object):
     API_VERSION = 1
 
     _authorization_url = AUTHORIZE_ENDPOINT
-    _request_token_url = "%s/oauth2/token" % API_ENDPOINT
+    _request_token_url = "{0}/oauth2/token".format(API_ENDPOINT)
     _access_token_url = _request_token_url
     _refresh_token_url = _request_token_url
 
@@ -54,9 +54,9 @@ class MonzoOAuth2Client(object):
         self.client_id, self.client_secret = client_id, client_secret
         token = {}
         if access_token:
-            token.update({ACCESS_TOKEN: access_token})
+            token[ACCESS_TOKEN] = access_token
         if refresh_token:
-            token.update({REFRESH_TOKEN: refresh_token})
+            token[REFRESH_TOKEN] = refresh_token
         if expires_at:
             token[EXPIRES_AT] = expires_at
 
@@ -135,7 +135,7 @@ class MonzoOAuth2Client(object):
         if redirect_uri:
             self.session.redirect_uri = redirect_uri
 
-        return(self.session.authorization_url(self._authorization_url, **kwargs))
+        return self.session.authorization_url(MonzoOAuth2Client._authorization_url, **kwargs)
 
     def fetch_access_token(self, code, redirect_uri=None):
         """Step 2: Given the code from Monzo from step 1, call
@@ -147,8 +147,9 @@ class MonzoOAuth2Client(object):
         """
         if redirect_uri:
             self.session.redirect_uri = redirect_uri
+
         token = self.session.fetch_token(
-            self._access_token_url,
+            MonzoOAuth2Client._access_token_url,
             username=self.client_id,
             password=self.client_secret,
             code=code)
@@ -166,7 +167,7 @@ class MonzoOAuth2Client(object):
             :rtype: A Dictionary representation of the authentication token.
         """
         token = self.session.refresh_token(
-            self._refresh_token_url,
+            MonzoOAuth2Client._refresh_token_url,
             auth=HTTPBasicAuth(self.client_id, self.client_secret)
             )
 
