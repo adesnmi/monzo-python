@@ -4,7 +4,7 @@ This module contains the class `Monzo` which represents a wrapper around
 HTTP calls to Monzo's API endpoints.
 """
 
-import monzo.auth as _auth
+from monzo.auth import MonzoOAuth2Client
 import string
 import random
 
@@ -30,7 +30,7 @@ class Monzo(object):
 
            :param access_token: A valid access token from https://developers.monzo.com/
         """
-        self.oauth_session = _auth.MonzoOAuth2Client(None, None, access_token=access_token)
+        self.oauth_session = MonzoOAuth2Client(None, None, access_token=access_token)
 
     @classmethod
     def from_oauth_session(cls, oauth):
