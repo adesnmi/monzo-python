@@ -180,7 +180,10 @@ class Monzo(object):
             'url': url,
             "params[title]": params['title'],
             "params[image_url]": params['image_url'],
-            "params[body]": params['body']
+            "params[body]": params['body'],
+            "params[background_color]": params.get('background_color'),
+            "params[body_color]": params.get('body_color'),
+            "params[title_color]": params.get('title_color')
         }
         response = self.request.post(url,
                                      headers=self.headers,
