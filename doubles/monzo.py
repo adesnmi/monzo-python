@@ -272,3 +272,29 @@ class Monzo(object):
             "type": "default",
             "updated": "2018-04-04T16:55:11.037Z"
         }
+
+    def update_transaction_metadata(self, transaction_id, key, value):
+        """Update a metadata key value pair for a given transaction. (https://monzo.com/docs/#annotate-transaction)
+            :param transaction_id: The unique identifier for the transaction for which notes should be updated.
+            :param key: The key for the element of metadata to be updated.
+            :param value: The value to be associated with the given key.
+            :rtype: The updated transaction object.
+        """
+        return {
+            "transactions": [
+                {
+                    "account_balance": 13013,
+                    "amount": -510,
+                    "created": "2015-08-22T12:20:18Z",
+                    "currency": "GBP",
+                    "description": "THE DE BEAUVOIR DELI C LONDON        GBR",
+                    "id": "tx_00008zIcpb1TB4yeIFXMzx",
+                    "merchant": "merch_00008zIcpbAKe8shBxXUtl",
+                    "metadata": {key:value},
+                    "notes": "Salmon sandwich 🍞",
+                    "is_load": False,
+                    "settled": "2015-08-23T12:20:18Z",
+                    "category": "eating_out"
+                }
+            ]
+        }
