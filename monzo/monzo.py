@@ -183,7 +183,6 @@ class Monzo(object):
         response = self.oauth_session.make_request(url, data=data)
         return response
 
-
     def create_feed_item(self, account_id, feed_type, url, params):
         """Creates a feed item. (https://monzo.com/docs/#create-feed-item)
 
