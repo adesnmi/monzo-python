@@ -15,7 +15,7 @@ If the above doesn’t work, you may want to run the above command as an admin b
 Open up a Python terminal (or create a Python file) and enter the following:
 
 ```python
-from monzo.monzo import Monzo # Import Monzo Class
+from monzo import Monzo # Import Monzo Class
 
 client = Monzo('access_token_goes_here') # Replace access token with a valid token found at: https://developers.monzo.com/
 account_id = client.get_first_account()['id'] # Get the ID of the first account linked to the access token
