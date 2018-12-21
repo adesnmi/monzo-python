@@ -12,7 +12,7 @@ class Account(dict):
         return(not self['closed'])
 
     def is_joint(self):
-        return(len(self['owners']) > 1)
+        return(self['account_type'] == 'uk_retail_joint')
 
 class Pot(dict):
 
