@@ -1,6 +1,6 @@
-"""A data class representing a Monzo current account
+"""Data classes representing a transaction of list of transactions
 
-This module contains the class `Account` which represents a prepaid or retail Monzo account
+This module contains the classes representing a transaction of list of transactions
 """
 
 class Transaction(dict):
@@ -24,7 +24,7 @@ class TransactionList(dict):
         return "{}({!r})".format(self.__class__.__name__, dict(self))
 
     def nextpage(self):
-        """ """
+        """Returns the next page in a paginated request"""
         if 'next_page' in self:
             return self['next_page']()
 
