@@ -8,6 +8,7 @@ py==1.4.31
 pylint==1.6.4
 pytest==2.9.2
 python-dotenv==0.5.1
-requests==2.10.0
+requests==2.20.0
+requests-oauthlib==1.0.0
 six==1.10.0
 wrapt==1.10.8
