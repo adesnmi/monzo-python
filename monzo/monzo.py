@@ -276,3 +276,12 @@ class Monzo(object):
            :rtype: The updated transaction object.
         """
         return self.update_transaction_metadata(transaction_id, 'notes', notes)
+    
+    def get_transaction(self, transaction_id):
+        """Retrieve data for a specific transaction. (https://docs.monzo.com/#retrieve-transaction)
+           :param transaction_id: The unique identifier for the transaction for which data should be retrieved for.
+           :rtype: A dictionary containing the data for the specified transaction_id.
+        """
+        url = "{0}/transactions/{1}".format(self.API_URL, transaction_id)
+        response = self.oauth_session.make_request(url)
+        return response
