@@ -331,7 +331,7 @@ class Monzo(object):
                 },
                 "metadata": {},
                 "notes": "Salmon sandwich 🍞",
-                "is_load": false,
+                "is_load": False,
                 "settled": "2015-08-23T12:20:18Z"
             }
         }
