@@ -90,3 +90,9 @@ class TestApiEndpoints:
                                            key = 'keyvalue',
                                            value='does not matter')
         assert updated_transaction is not None
+    
+    def test_get_transaction(self, client):
+        account_id = client.get_first_account()['id']
+        first_transaction_id = client.get_transactions(account_id)['transactions'][0]['id']
+        transaction_data = client.get_transaction(first_transaction_id)
+        assert transaction_data['transaction'] is not None
