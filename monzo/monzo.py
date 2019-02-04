@@ -92,13 +92,20 @@ class Monzo(object):
         if isinstance(since, datetime):
             since = since.isoformat() + 'Z'
         url = "{0}/transactions".format(self.API_URL)
-        params = {'expand[]': 'merchant', 'account_id': account_id,
-                  'before': before, 'since': since, 'limit': limit}
+        params = {
+            'expand[]': 'merchant',
+            'account_id': account_id,
+            'before': before,
+            'since': since,
+            'limit': limit,
+            }
         response = self.oauth_session.make_request(url, params=params)
         if any([before,since,limit]):
             last_transaction_id = response['transactions'][-1]['id']
-            next_page = partial(self.get_transactions, account_id,
-                                before=before, since = last_transaction_id,
+            next_page = partial(self.get_transactions,
+                                account_id,
+                                before=before,
+                                since = last_transaction_id,
                                 limit = limit)
             response.update({'next_page':next_page})
         
