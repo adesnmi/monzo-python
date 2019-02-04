@@ -1,0 +1,654 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>monzo package &#8212; Monzo Python 0.4.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Monzo Python" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="monzo-package">
+<h1>monzo package<a class="headerlink" href="#monzo-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-monzo.errors">
+<span id="monzo-errors-module"></span><h2>monzo.errors module<a class="headerlink" href="#module-monzo.errors" title="Permalink to this headline">¶</a></h2>
+<p>The module that represents each possible Monzo API error; documented at:
+<a class="reference external" href="https://monzo.co.uk/docs/#errors">https://monzo.co.uk/docs/#errors</a> as individual Python errors.</p>
+<dl class="exception">
+<dt id="monzo.errors.BadRequestError">
+<em class="property">exception </em><code class="descclassname">monzo.errors.</code><code class="descname">BadRequestError</code><a class="headerlink" href="#monzo.errors.BadRequestError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>An error to be raised when a request has missing arguments or is malformed.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="monzo.errors.ForbiddenError">
+<em class="property">exception </em><code class="descclassname">monzo.errors.</code><code class="descname">ForbiddenError</code><a class="headerlink" href="#monzo.errors.ForbiddenError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>An error to be raised when a request has insufficient permissions.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="monzo.errors.GatewayTimeoutError">
+<em class="property">exception </em><code class="descclassname">monzo.errors.</code><code class="descname">GatewayTimeoutError</code><a class="headerlink" href="#monzo.errors.GatewayTimeoutError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>A timeout has occured on Monzo’s servers.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="monzo.errors.InternalServerError">
+<em class="property">exception </em><code class="descclassname">monzo.errors.</code><code class="descname">InternalServerError</code><a class="headerlink" href="#monzo.errors.InternalServerError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>An error with Monzo’s servers.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="monzo.errors.MethodNotAllowedError">
+<em class="property">exception </em><code class="descclassname">monzo.errors.</code><code class="descname">MethodNotAllowedError</code><a class="headerlink" href="#monzo.errors.MethodNotAllowedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>An error to be raised when a request is using an incorrect HTTP verb.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="monzo.errors.NotAcceptibleError">
+<em class="property">exception </em><code class="descclassname">monzo.errors.</code><code class="descname">NotAcceptibleError</code><a class="headerlink" href="#monzo.errors.NotAcceptibleError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>An error to be raised when an application does not accept the content
+format returned according to the Accept headers sent in the request.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="monzo.errors.PageNotFoundError">
+<em class="property">exception </em><code class="descclassname">monzo.errors.</code><code class="descname">PageNotFoundError</code><a class="headerlink" href="#monzo.errors.PageNotFoundError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>An error to be raised when a request requests an endpoint that doesn’t exist.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="monzo.errors.TooManyRequestsError">
+<em class="property">exception </em><code class="descclassname">monzo.errors.</code><code class="descname">TooManyRequestsError</code><a class="headerlink" href="#monzo.errors.TooManyRequestsError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>An error to be raised when an application is exceeding its rate limit.
+Back off, buddy. :p</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="monzo.errors.UnauthorizedError">
+<em class="property">exception </em><code class="descclassname">monzo.errors.</code><code class="descname">UnauthorizedError</code><a class="headerlink" href="#monzo.errors.UnauthorizedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>An error to be raised when a request is not authenticated.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-monzo.monzo">
+<span id="monzo-monzo-module"></span><h2>monzo.monzo module<a class="headerlink" href="#module-monzo.monzo" title="Permalink to this headline">¶</a></h2>
+<p>A wrapper around the official Monzo API endpoints.</p>
+<p>This module contains the class <cite>Monzo</cite> which represents a wrapper around
+HTTP calls to Monzo’s API endpoints.</p>
+<dl class="class">
+<dt id="monzo.monzo.Monzo">
+<em class="property">class </em><code class="descclassname">monzo.monzo.</code><code class="descname">Monzo</code><span class="sig-paren">(</span><em>access_token</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The class representation of Monzo’s API endpoints.</p>
+<p>Please note that functions without a reference to the official Monzo API
+docs page are convenience functions which are created - based on the official
+API functions - to make life easier for developers.</p>
+<p>e.g. <cite>get_first_account</cite> calls <cite>get_account</cite> and returns the first <cite>account</cite>
+object, if it exists.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>access_token</strong> – The access token to authorise API calls.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="monzo.monzo.Monzo.API_URL">
+<code class="descname">API_URL</code><em class="property"> = 'https://api.monzo.com/'</em><a class="headerlink" href="#monzo.monzo.Monzo.API_URL" title="Permalink to this definition">¶</a></dt>
+<dd><p>(str): A representation of the current Monzo api url.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.create_feed_item">
+<code class="descname">create_feed_item</code><span class="sig-paren">(</span><em>account_id</em>, <em>feed_type</em>, <em>url</em>, <em>params</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.create_feed_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a feed item. (<a class="reference external" href="https://monzo.com/docs/#create-feed-item">https://monzo.com/docs/#create-feed-item</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>account_id</strong> – The unique identifier for the account to create the feed item for.</li>
+<li><strong>feed_type</strong> – The type of feed item (currently only <cite>basic</cite> is supported).</li>
+<li><strong>url</strong> – The url to open if a feed item is tapped</li>
+<li><strong>params</strong> – A map of parameters which vary based on type</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">An empty Dictionary, if the feed item creation was successful.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.delete_all_webhooks">
+<code class="descname">delete_all_webhooks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.delete_all_webhooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes all webhooks associated with the first account, if it exists.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.delete_webhook">
+<code class="descname">delete_webhook</code><span class="sig-paren">(</span><em>webhook_id</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.delete_webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the a specified webhook. (<a class="reference external" href="https://monzo.com/docs/#deleting-a-webhook">https://monzo.com/docs/#deleting-a-webhook</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>webhook_id</strong> – The unique identifier for the webhook to delete.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">An empty Dictionary, if the deletion was successful.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.deposit_into_pot">
+<code class="descname">deposit_into_pot</code><span class="sig-paren">(</span><em>pot_id</em>, <em>account_id</em>, <em>amount_in_pennies</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.deposit_into_pot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move money from an account into a pot. (<a class="reference external" href="https://monzo.com/docs/#deposit-into-a-pot">https://monzo.com/docs/#deposit-into-a-pot</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pot_id</strong> – The unique identifier for the pot to deposit the money to.</li>
+<li><strong>account_id</strong> – The unique identifier for the account to move the money from.</li>
+<li><strong>amount_in_pennies</strong> – The amount of money to move to the pot in pennies.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A dictionary containing information on the pot that was updated.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.deregister_attachment">
+<code class="descname">deregister_attachment</code><span class="sig-paren">(</span><em>attachment_id</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.deregister_attachment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removed a previously attached image from a transaction. (<a class="reference external" href="https://monzo.com/docs/#deregister-attachment">https://monzo.com/docs/#deregister-attachment</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>transaction_id</strong> – The unique identifier for the attachment to deregister.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">An empty Dictionary, if the deregistration was successful.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="monzo.monzo.Monzo.from_oauth_session">
+<em class="property">classmethod </em><code class="descname">from_oauth_session</code><span class="sig-paren">(</span><em>oauth</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.from_oauth_session" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts an existing MonzoOAuth2Client into this Monzo object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>oauth</strong> – The MonzoOAuth2Client to be used by the newly created Monzo object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A new Monzo object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.get_accounts">
+<code class="descname">get_accounts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.get_accounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all accounts that belong to a user. (<a class="reference external" href="https://monzo.com/docs/#list-accounts">https://monzo.com/docs/#list-accounts</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A Collection of accounts for a user.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.get_balance">
+<code class="descname">get_balance</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.get_balance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the balance of a given account. (<a class="reference external" href="https://monzo.com/docs/#read-balance">https://monzo.com/docs/#read-balance</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>account_id</strong> – The unique identifier for the account which the balance belong to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">Dictionary representation of the current account balance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.get_first_account">
+<code class="descname">get_first_account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.get_first_account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the first account for a user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A Dictionary representation of the first account belonging to a user, if it exists.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.get_first_webhook">
+<code class="descname">get_first_webhook</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.get_first_webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the first webhook of a given account.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>account_id</strong> – The unique identifier for the account which the first webhook belong to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A Dictionary representation of the first webhook belonging to an account, if it exists.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.get_pots">
+<code class="descname">get_pots</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.get_pots" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all pots for a user. (<a class="reference external" href="https://monzo.com/docs/#list-pots">https://monzo.com/docs/#list-pots</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A collection of pots for a user.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.get_transactions">
+<code class="descname">get_transactions</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.get_transactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all transactions of a given account. (<a class="reference external" href="https://monzo.com/docs/#list-transactions">https://monzo.com/docs/#list-transactions</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>account_id</strong> – The unique identifier for the account which the transactions belong to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A collection of transaction objects for specific user.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.get_webhooks">
+<code class="descname">get_webhooks</code><span class="sig-paren">(</span><em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.get_webhooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the webhooks of a given account. (<a class="reference external" href="https://monzo.com/docs/#list-webhooks">https://monzo.com/docs/#list-webhooks</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>account_id</strong> – The unique identifier for the account which the webhooks belong to.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A collection of webhooks that belong to an account.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.register_attachment">
+<code class="descname">register_attachment</code><span class="sig-paren">(</span><em>transaction_id</em>, <em>file_url</em>, <em>file_type</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.register_attachment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attaches an image to a transaction. (<a class="reference external" href="https://monzo.com/docs/#register-attachment">https://monzo.com/docs/#register-attachment</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>transaction_id</strong> – The unique identifier for the transaction to register the attachment to.</li>
+<li><strong>file_url</strong> – The url of the file to attach.</li>
+<li><strong>transaction_id</strong> – The type of the file specified in file_url</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Dictionary representation of the attachment that was just registered.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.register_webhook">
+<code class="descname">register_webhook</code><span class="sig-paren">(</span><em>webhook_url</em>, <em>account_id</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.register_webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a webhook. (<a class="reference external" href="https://monzo.com/docs/#registering-a-webhook">https://monzo.com/docs/#registering-a-webhook</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>webhook_url</strong> – The webhook url to register.</li>
+<li><strong>account_id</strong> – The unique identifier for the account to register the webhook.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Registers a webhook to an account.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.update_transaction_metadata">
+<code class="descname">update_transaction_metadata</code><span class="sig-paren">(</span><em>transaction_id</em>, <em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.update_transaction_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a metadata key value pair for a given transaction. (<a class="reference external" href="https://monzo.com/docs/#annotate-transaction">https://monzo.com/docs/#annotate-transaction</a>)
+:param transaction_id: The unique identifier for the transaction for which notes should be updated.
+:param key: The key for the element of metadata to be updated.
+:param value: The value to be associated with the given key.
+:rtype: The updated transaction object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.update_transaction_notes">
+<code class="descname">update_transaction_notes</code><span class="sig-paren">(</span><em>transaction_id</em>, <em>notes</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.update_transaction_notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update notes for a given transaction. (<a class="reference external" href="https://monzo.com/docs/#annotate-transaction">https://monzo.com/docs/#annotate-transaction</a>)
+:param transaction_id: The unique identifier for the transaction for which notes should be updated.
+:param notes: The new notes to be attached to the transaction.
+:rtype: The updated transaction object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.whoami">
+<code class="descname">whoami</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.whoami" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives information about an access token. (<a class="reference external" href="https://monzo.com/docs/#authenticating-requests">https://monzo.com/docs/#authenticating-requests</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A Dictionary representation of the authentication status.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.monzo.Monzo.withdraw_from_pot">
+<code class="descname">withdraw_from_pot</code><span class="sig-paren">(</span><em>account_id</em>, <em>pot_id</em>, <em>amount_in_pennies</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.monzo.Monzo.withdraw_from_pot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move money from an account into a pot. (<a class="reference external" href="https://monzo.com/docs/#withdraw-from-a-pot">https://monzo.com/docs/#withdraw-from-a-pot</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>account_id</strong> – The unique identifier for the account to move the money to.</li>
+<li><strong>pot_id</strong> – The unique identifier for the pot to withdraw the money from.</li>
+<li><strong>amount_in_pennies</strong> – The amount of money to move to the pot in pennies.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A dictionary containing information on the pot that was updated.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-monzo.auth">
+<span id="monzo-auth-module"></span><h2>monzo.auth module<a class="headerlink" href="#module-monzo.auth" title="Permalink to this headline">¶</a></h2>
+<p>OAuth2 session client to handle authentication of calls to the Monzo API</p>
+<p>Adapted from the implementation for a Fitbit API Python client by Orcas, Inc.
+and used under the Apache2 license: <a class="reference external" href="https://www.apache.org/licenses/LICENSE-2.0">https://www.apache.org/licenses/LICENSE-2.0</a></p>
+<p>Original code may be found at: <a class="reference external" href="https://github.com/orcasgit/python-fitbit">https://github.com/orcasgit/python-fitbit</a></p>
+<dl class="class">
+<dt id="monzo.auth.MonzoOAuth2Client">
+<em class="property">class </em><code class="descclassname">monzo.auth.</code><code class="descname">MonzoOAuth2Client</code><span class="sig-paren">(</span><em>client_id</em>, <em>client_secret</em>, <em>access_token=None</em>, <em>refresh_token=None</em>, <em>expires_at=None</em>, <em>refresh_callback=&lt;function save_token_to_file&gt;</em>, <em>redirect_uri='http://localhost'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.auth.MonzoOAuth2Client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="monzo.auth.MonzoOAuth2Client.API_ENDPOINT">
+<code class="descname">API_ENDPOINT</code><em class="property"> = 'https://api.monzo.com'</em><a class="headerlink" href="#monzo.auth.MonzoOAuth2Client.API_ENDPOINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="monzo.auth.MonzoOAuth2Client.API_VERSION">
+<code class="descname">API_VERSION</code><em class="property"> = 1</em><a class="headerlink" href="#monzo.auth.MonzoOAuth2Client.API_VERSION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="monzo.auth.MonzoOAuth2Client.AUTHORIZE_ENDPOINT">
+<code class="descname">AUTHORIZE_ENDPOINT</code><em class="property"> = 'https://auth.monzo.com'</em><a class="headerlink" href="#monzo.auth.MonzoOAuth2Client.AUTHORIZE_ENDPOINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="monzo.auth.MonzoOAuth2Client.authorize_token_url">
+<code class="descname">authorize_token_url</code><span class="sig-paren">(</span><em>redirect_uri=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.auth.MonzoOAuth2Client.authorize_token_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Step 1: Return the URL the user needs to go to in order to grant us
+authorization to look at their data.  Then redirect the user to that
+URL, open their browser to it, or tell them to copy the URL into their
+browser.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param redirect_uri:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">url to which the response will posted.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">rtype:</th><td class="field-body">A Tuple consisting of the authentication url and the state token.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.auth.MonzoOAuth2Client.fetch_access_token">
+<code class="descname">fetch_access_token</code><span class="sig-paren">(</span><em>code</em>, <em>redirect_uri=None</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.auth.MonzoOAuth2Client.fetch_access_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Step 2: Given the code from Monzo from step 1, call
+Monzo again and returns an access token object. Extract the needed
+information from that and save it to use in future API calls.
+the token is internally saved</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">rtype:</th><td class="field-body">A Dictionary representation of the authentication status.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="monzo.auth.MonzoOAuth2Client.from_json">
+<em class="property">classmethod </em><code class="descname">from_json</code><span class="sig-paren">(</span><em>filename='monzo.json'</em>, <em>refresh_callback=&lt;function save_token_to_file&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.auth.MonzoOAuth2Client.from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a MonzoOAuth2Client object from a json representation of the
+client credentials and token from a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> – Path to file from which to load information</li>
+<li><strong>refresh_callback</strong> – Callback function for when access token is refreshed</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">MonzoOAuth2Client object as defined in loaded file</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.auth.MonzoOAuth2Client.make_request">
+<code class="descname">make_request</code><span class="sig-paren">(</span><em>url</em>, <em>data=None</em>, <em>method=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.auth.MonzoOAuth2Client.make_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds and makes the OAuth2 Request, catches errors
+<a class="reference external" href="https://docs.monzo.com/#errors">https://docs.monzo.com/#errors</a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.auth.MonzoOAuth2Client.refresh_token">
+<code class="descname">refresh_token</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#monzo.auth.MonzoOAuth2Client.refresh_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Step 3: obtains a new access_token from the the refresh token
+obtained in step 2. Only do the refresh if there is <cite>token_updater(),</cite>
+which saves the token.</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">rtype:</th><td class="field-body">A Dictionary representation of the authentication token.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="monzo.auth.MonzoOAuth2Client.validate_response">
+<code class="descname">validate_response</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="headerlink" href="#monzo.auth.MonzoOAuth2Client.validate_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate the response and raises any appropriate errors.
+<a class="reference external" href="https://docs.monzo.com/#errors">https://docs.monzo.com/#errors</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>response</strong> – The response to validate</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A Dictionary representation of the response, if no errors occured.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-monzo">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-monzo" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>API Docs</h3>
+<ul class="globaltoc">
+    <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">monzo package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-monzo.errors">monzo.errors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-monzo.monzo">monzo.monzo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-monzo.auth">monzo.auth module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-monzo">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+</ul>
+<h3>Versions</h3>
+<ul>
+    <li><a href="http://muyiwa.me/monzo-python/0.5/index.html">0.5.x</a></li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Muyiwa Olu-Ogunleye.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/monzo.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
