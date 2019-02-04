@@ -7,6 +7,7 @@ HTTP calls to Monzo's API endpoints.
 from monzo.auth import MonzoOAuth2Client
 import string
 import random
+import json
 
 class Monzo(object):
     """The class representation of Monzo's API endpoints.
@@ -286,7 +287,7 @@ class Monzo(object):
            :param taxes: Not required by default: The list of taxes (e.g. VAT) added onto the total. (https://docs.monzo.com/#receipt-taxes)
            :param payments: Not required by default: A list of payments, indicating how the customer paid the total. (https://docs.monzo.com/#receipt-payments)
            :param merchant: Not required by default: Extra information about the merchant you shopped at. (https://docs.monzo.com/#receipt-merchant)
-           :rtype: The receipt object (receipt_id and infoformation) you "PUT", repeated back to you.
+           :rtype: A tuple object containing the receipt object (receipt_id and infoformation) you "PUT", repeated back to you & the generate external_id.
         """
         url = "{0}/transaction-receipts".format(self.API_URL)
         # Generate a random external_id consisting of 8 digits. 
@@ -306,8 +307,8 @@ class Monzo(object):
             data["payments"] = payments
         if merchant is not None and (type(merchant) is dict):
             data["merchant"] = merchant
-        response = self.oauth_session.make_request(url, data=data, method='PUT')
-        return response
+        response = self.oauth_session.make_request(url, data=json.dumps(data), method='PUT')
+        return response, external_id
 
     def retrieve_receipt(self, external_id):
         """Retrieve a receipt for a given transaction by querying its external_id. (https://docs.monzo.com/#retrieve-receipt)
