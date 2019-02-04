@@ -20,10 +20,10 @@ monzo.monzo module
     :undoc-members:
     :show-inheritance:
 
-monzo.request module
+monzo.auth module
 --------------------
 
-.. automodule:: monzo.request
+.. automodule:: monzo.auth
     :members:
     :undoc-members:
     :show-inheritance:
