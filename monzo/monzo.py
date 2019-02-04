@@ -287,7 +287,7 @@ class Monzo(object):
            :param taxes: Not required by default: The list of taxes (e.g. VAT) added onto the total. (https://docs.monzo.com/#receipt-taxes)
            :param payments: Not required by default: A list of payments, indicating how the customer paid the total. (https://docs.monzo.com/#receipt-payments)
            :param merchant: Not required by default: Extra information about the merchant you shopped at. (https://docs.monzo.com/#receipt-merchant)
-           :rtype: A tuple object containing the receipt object (receipt_id and infoformation) you "PUT", repeated back to you & the generate external_id.
+           :rtype: A tuple object containing the receipt object you "PUT", repeated back to you & the generated external_id.
         """
         url = "{0}/transaction-receipts".format(self.API_URL)
         # Generate a random external_id consisting of 8 digits. 
