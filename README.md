@@ -55,7 +55,7 @@ from monzo.auth import MonzoOAuth2Client # Import OAuth client class
 
 oauth_client = MonzoOAuth2Client('client_id', 'client_secret',redirect_uri='redirect_url') # Replace with details entered on developer playground.
 
-auth_start_url = oauth_client.get_authentication_url() # Returns a dictionary containing the Monzo authentication startpoint.
+auth_start_url = oauth_client.authorize_token_url() # Returns a dictionary containing the Monzo authentication startpoint.
 ```
 
 After authentication, Monzo will send the user an email containing a "magic link" to the redirect url you entered on the developer website. This url is appended with the authentication code which needs to be exchanged for an access token.
