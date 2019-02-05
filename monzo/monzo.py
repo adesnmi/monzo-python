@@ -165,13 +165,12 @@ class Monzo(object):
         response = self.oauth_session.make_request(url, method='DELETE')
         return response
 
-    def delete_all_webhooks(self):
-        """Removes all webhooks associated with the first account, if it exists.
+    def delete_all_webhooks(self, account_id):
+        """Removes all webhooks associated with the specified account, if it exists.
 
+           :param account_id: The unique identifier for the account which all webhooks will be removed from.
            :rtype: None
         """
-        first_account = self.get_first_account()
-        account_id = first_account['id']
         webhooks = self.get_webhooks(account_id)
         for webhook in webhooks['webhooks']:
             self.delete_webhook(webhook['id'])
