@@ -7,7 +7,6 @@ HTTP calls to Monzo's API endpoints.
 from monzo.auth import MonzoOAuth2Client
 import string
 import random
-import json
 
 class Monzo(object):
     """The class representation of Monzo's API endpoints.
@@ -278,37 +277,19 @@ class Monzo(object):
         """
         return self.update_transaction_metadata(transaction_id, 'notes', notes)
 
-    def create_receipt(self, transaction_id, total, currency, items, taxes=None, payments=None, merchant=None):
-        """Create a receipt for a given transaction. (https://docs.monzo.com/#create-receipt) (https://docs.monzo.com/#receipts)
-           :param transaction_id: The unique identifier for the transaction for which the receipt should be added to.
-           :param total: The integer amount for the value of the transaction.
-           :param currency: The str of the currency used for the transaction; usually `GBP`.
-           :param items: The list of items detailing the products included in the total. (https://docs.monzo.com/#receipt-items)
-           :param taxes: Not required by default: The list of taxes (e.g. VAT) added onto the total. (https://docs.monzo.com/#receipt-taxes)
-           :param payments: Not required by default: A list of payments, indicating how the customer paid the total. (https://docs.monzo.com/#receipt-payments)
-           :param merchant: Not required by default: Extra information about the merchant you shopped at. (https://docs.monzo.com/#receipt-merchant)
-           :rtype: A tuple object containing the receipt object you "PUT", repeated back to you & the generated external_id.
+    def create_receipt(self, receipt):
+        """Create a receipt for a given transaction. (https://docs.monzo.com/#create-receipt)
+           :param receipt: The entire receipt structure. (https://docs.monzo.com/#receipts)
+           Useful links for receipt structure:
+            * (https://docs.monzo.com/#receipt-items)
+            * (https://docs.monzo.com/#receipt-taxes)
+            * (https://docs.monzo.com/#receipt-payments)
+            * (https://docs.monzo.com/#receipt-merchant)
+           :rtype: A Dictionary object containing the receipt object you "PUT"; repeated back to you.
         """
         url = "{0}/transaction-receipts".format(self.API_URL)
-        # Generate a random external_id consisting of 8 digits. 
-        external_id = "Order-" + str(random.randint(10000000, 99999999))
-        # Init base receipt structure with required properties.
-        data = {
-            "transaction_id": transaction_id,
-            "external_id": external_id,
-            "total": total,
-            "currency": currency,
-            "items": items
-        }
-        # Check for non-required properties and are the correct type (taxes, payments & merchant).
-        if (taxes is not None) and (type(taxes) is list):
-            data["taxes"] = taxes
-        if (payments is not None) and (type(payments) is list):
-            data["payments"] = payments
-        if merchant is not None and (type(merchant) is dict):
-            data["merchant"] = merchant
-        response = self.oauth_session.make_request(url, data=json.dumps(data), method='PUT')
-        return response, external_id
+        response = self.oauth_session.make_request(url, json=receipt, method='PUT')
+        return response
 
     def retrieve_receipt(self, external_id):
         """Retrieve a receipt for a given transaction by querying its external_id. (https://docs.monzo.com/#retrieve-receipt)
@@ -316,8 +297,8 @@ class Monzo(object):
            :rtype: The receipt object for the given external_id.
         """
         url = "{0}/transaction-receipts".format(self.API_URL)
-        data = {"external_id": external_id}
-        response = self.oauth_session.make_request(url, data=data)
+        params = {"external_id": external_id}
+        response = self.oauth_session.make_request(url, params=params)
         return response
     
     def delete_receipt(self, external_id):
@@ -326,8 +307,8 @@ class Monzo(object):
            :rtype: An empty Dictionary, if the receipt deletion was successful.
         """
         url = "{0}/transaction-receipts".format(self.API_URL)
-        data = {"external_id": external_id}
-        response = self.oauth_session.make_request(url, data=data, method='DELETE')
+        params = {'external_id': external_id}
+        response = self.oauth_session.make_request(url, params=params, method='DELETE')
         return response
 
         
