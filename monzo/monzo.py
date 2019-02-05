@@ -277,7 +277,7 @@ class Monzo(object):
         """
         return self.update_transaction_metadata(transaction_id, 'notes', notes)
 
-    def create_receipt(self, receipt):
+    def create_receipt(self, receipt, external_id):
         """Create a receipt for a given transaction. (https://docs.monzo.com/#create-receipt)
            :param receipt: The entire receipt structure. (https://docs.monzo.com/#receipts)
            Useful links for receipt structure:
@@ -285,9 +285,12 @@ class Monzo(object):
             * (https://docs.monzo.com/#receipt-taxes)
             * (https://docs.monzo.com/#receipt-payments)
             * (https://docs.monzo.com/#receipt-merchant)
+           :param external_id: The external ID for the receipt.
            :rtype: A Dictionary object containing the receipt object you "PUT"; repeated back to you.
         """
         url = "{0}/transaction-receipts".format(self.API_URL)
+        # Add external_id to the receipt object.
+        receipt["external_id"] = external_id
         response = self.oauth_session.make_request(url, json=receipt, method='PUT')
         return response
 
