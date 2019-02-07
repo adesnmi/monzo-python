@@ -276,3 +276,11 @@ class Monzo(object):
            :rtype: The updated transaction object.
         """
         return self.update_transaction_metadata(transaction_id, 'notes', notes)
+    
+    def get_investment_data(self):
+        """Retrieve data from Monzo's API about the crowdfunding activities.
+        :rtype: A `dictionary` containing crowdfunding data.
+        """
+        url = "{0}crowdfunding-investment/total".format(self.API_URL)
+        response = self.oauth_session.make_request(url)
+        return response
