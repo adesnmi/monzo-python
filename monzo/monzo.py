@@ -284,3 +284,6 @@ class Monzo(object):
         url = "{0}crowdfunding-investment/total".format(self.API_URL)
         response = self.oauth_session.make_request(url)
         return response
+        # or as no authentication is required for this endpoint.
+        # response = self.oauth_session.session.get(url).json()
+        # return response 
