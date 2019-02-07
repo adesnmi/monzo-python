@@ -298,3 +298,14 @@ class Monzo(object):
                 }
             ]
         }
+    
+    def get_investment_data(self):
+        """Retrieve data from Monzo's API about the crowdfunding activities.
+        :rtype: A `dictionary` containing crowdfunding data.
+        """
+        return {'invested_amount': 199999955400,
+                'max_amount': 199999955400,
+                'max_shares': 2592520,
+                'share_price': 77145,
+                'shares_invested': 2592520,
+                'status': 'finished'}
