@@ -90,3 +90,7 @@ class TestApiEndpoints:
                                            key = 'keyvalue',
                                            value='does not matter')
         assert updated_transaction is not None
+
+    def test_get_investment_data(self, client):
+        crowdfunding_data = client.get_investment_data()
+        assert crowdfunding_data is not None
