@@ -15,7 +15,7 @@ If the above doesn’t work, you may want to run the above command as an admin b
 Open up a Python terminal (or create a Python file) and enter the following:
 
 ```python
-from monzo.monzo import Monzo # Import Monzo class
+from monzo import Monzo # Import Monzo class
 
 client = Monzo('access_token_goes_here') # Replace access token with a valid token found at: https://developers.monzo.com/
 account_id = client.get_first_account()['id'] # Get the ID of the first account linked to the access token
@@ -50,8 +50,8 @@ Note: If your application doesn't include a http server which can pass the authe
 
 To use a proper OAuth session in monzo-python we need to use the MonzoOAuth2Client class.
 
-```python3
-from monzo.auth import MonzoOAuth2Client # Import OAuth client class
+```python
+from monzo import MonzoOAuth2Client # Import OAuth client class
 
 oauth_client = MonzoOAuth2Client('client_id', 'client_secret',redirect_uri='redirect_url') # Replace with details entered on developer playground.
 
@@ -70,7 +70,7 @@ At this point the OAuth session is complete and `oauth_client` will automaticall
 To interact with the Monzo API we then insert our `oauth_client` into a `Monzo` object
 
 ```python3
-from monzo.monzo import Monzo # Import Monzo class
+from monzo import Monzo # Import Monzo class
 client = Monzo.from_oauth_session(oauth_client)
 
 ```
