@@ -12,11 +12,26 @@ from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import TokenExpiredError
 
 from monzo.utils import save_token_to_file, load_token_from_file
-from monzo.errors import (BadRequestError, UnauthorizedError, ForbiddenError,
-MethodNotAllowedError, PageNotFoundError, NotAcceptibleError,
-TooManyRequestsError,InternalServerError, GatewayTimeoutError)
-from monzo.const import (CLIENT_ID, CLIENT_SECRET,
-    ACCESS_TOKEN, REFRESH_TOKEN, EXPIRES_AT, MONZO_CACHE_FILE)
+from monzo.errors import (
+    BadRequestError,
+    UnauthorizedError,
+    ForbiddenError,
+    MethodNotAllowedError,
+    PageNotFoundError,
+    NotAcceptibleError,
+    TooManyRequestsError,
+    InternalServerError,
+    GatewayTimeoutError,
+)
+from monzo.const import (
+    CLIENT_ID,
+    CLIENT_SECRET,
+    ACCESS_TOKEN,
+    REFRESH_TOKEN,
+    EXPIRES_AT,
+    MONZO_CACHE_FILE,
+)
+
 
 class MonzoOAuth2Client(object):
     AUTHORIZE_ENDPOINT = "https://auth.monzo.com"
@@ -28,11 +43,20 @@ class MonzoOAuth2Client(object):
     _access_token_url = _request_token_url
     _refresh_token_url = _request_token_url
 
-    _localhost = 'http://localhost'
+    _localhost = "http://localhost"
 
-    def __init__(self, client_id, client_secret, access_token=None,
-            refresh_token=None, expires_at=None, refresh_callback=save_token_to_file,
-            redirect_uri=_localhost, *args, **kwargs):
+    def __init__(
+        self,
+        client_id,
+        client_secret,
+        access_token=None,
+        refresh_token=None,
+        expires_at=None,
+        refresh_callback=save_token_to_file,
+        redirect_uri=_localhost,
+        *args,
+        **kwargs,
+    ):
         """
         Create a MonzoOAuth2Client object.
         Specify the first 7 parameters if you have them to access user data.
@@ -66,9 +90,7 @@ class MonzoOAuth2Client(object):
         self.timeout = kwargs.get("timeout", None)
 
     @classmethod
-    def from_json(cls,
-                  filename=MONZO_CACHE_FILE,
-                  refresh_callback=save_token_to_file):
+    def from_json(cls, filename=MONZO_CACHE_FILE, refresh_callback=save_token_to_file):
         """Loads a MonzoOAuth2Client object from a json representation of the
            client credentials and token from a file.
 
@@ -85,34 +107,38 @@ class MonzoOAuth2Client(object):
 
         # Check if file contains information for a valid OAuth session
         if access_token or all(client_id, client_secret):
-            return MonzoOAuth2Client(client_id, client_secret,
-                                     access_token=access_token,
-                                     refresh_token=refresh_token,
-                                     expires_at=expires_at,
-                                     refresh_cb=refresh_callback)
+            return MonzoOAuth2Client(
+                client_id,
+                client_secret,
+                access_token=access_token,
+                refresh_token=refresh_token,
+                expires_at=expires_at,
+                refresh_cb=refresh_callback,
+            )
 
     def make_request(self, url, data=None, method=None, **kwargs):
         """
         Builds and makes the OAuth2 Request, catches errors
         https://docs.monzo.com/#errors
         """
-        if self.timeout is not None and 'timeout' not in kwargs:
-            kwargs['timeout'] = self.timeout
+        if self.timeout is not None and "timeout" not in kwargs:
+            kwargs["timeout"] = self.timeout
 
         data = data or {}
-        method = method or ('POST' if data else 'GET')
+        method = method or ("POST" if data else "GET")
 
         try:
             response = self.validate_response(
-                self.session.request(method, url, data=data, **kwargs))
+                self.session.request(method, url, data=data, **kwargs)
+            )
 
-        except (UnauthorizedError,TokenExpiredError) as e:
+        except (UnauthorizedError, TokenExpiredError) as e:
             self.refresh_token()
             response = self.make_request(url, data=data, method=method, **kwargs)
 
         return response
 
-    def authorize_token_url(self, redirect_uri = None, **kwargs):
+    def authorize_token_url(self, redirect_uri=None, **kwargs):
         """Step 1: Return the URL the user needs to go to in order to grant us
         authorization to look at their data.  Then redirect the user to that
         URL, open their browser to it, or tell them to copy the URL into their
@@ -124,7 +150,9 @@ class MonzoOAuth2Client(object):
         if redirect_uri:
             self.session.redirect_uri = redirect_uri
 
-        return self.session.authorization_url(MonzoOAuth2Client._authorization_url, **kwargs)
+        return self.session.authorization_url(
+            MonzoOAuth2Client._authorization_url, **kwargs
+        )
 
     def fetch_access_token(self, code, redirect_uri=None):
         """Step 2: Given the code from Monzo from step 1, call
@@ -141,7 +169,8 @@ class MonzoOAuth2Client(object):
             MonzoOAuth2Client._access_token_url,
             username=self.client_id,
             password=self.client_secret,
-            code=code)
+            code=code,
+        )
 
         if self.session.token_updater:
             self.session.token_updater(token)
@@ -157,8 +186,8 @@ class MonzoOAuth2Client(object):
         """
         token = self.session.refresh_token(
             MonzoOAuth2Client._refresh_token_url,
-            auth=HTTPBasicAuth(self.client_id, self.client_secret)
-            )
+            auth=HTTPBasicAuth(self.client_id, self.client_secret),
+        )
 
         token.update({CLIENT_SECRET: self.client_secret})
 
@@ -178,20 +207,20 @@ class MonzoOAuth2Client(object):
         if response.status_code == 200:
             return json_response
         if response.status_code == 400:
-            raise BadRequestError(json_response['message'])
+            raise BadRequestError(json_response["message"])
         if response.status_code == 401:
-            raise UnauthorizedError(json_response['message'])
+            raise UnauthorizedError(json_response["message"])
         if response.status_code == 403:
-            raise ForbiddenError(json_response['message'])
+            raise ForbiddenError(json_response["message"])
         if response.status_code == 404:
-            raise PageNotFoundError(json_response['message'])
+            raise PageNotFoundError(json_response["message"])
         if response.status_code == 405:
-            raise MethodNotAllowedError(json_response['message'])
+            raise MethodNotAllowedError(json_response["message"])
         if response.status_code == 406:
-            raise NotAcceptibleError(json_response['message'])
+            raise NotAcceptibleError(json_response["message"])
         if response.status_code == 429:
-            raise TooManyRequestsError(json_response['message'])
+            raise TooManyRequestsError(json_response["message"])
         if response.status_code == 500:
-            raise InternalServerError(json_response['message'])
+            raise InternalServerError(json_response["message"])
         if response.status_code == 504:
-            raise GatewayTimeoutError(json_response['message'])
+            raise GatewayTimeoutError(json_response["message"])
