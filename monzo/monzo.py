@@ -206,9 +206,12 @@ class Monzo(object):
             'account_id': account_id,
             'type': feed_type,
             'url': url,
-            "params[title]": params['title'],
-            "params[image_url]": params['image_url'],
-            "params[body]": params['body']
+            "params[title]": params.get('title'),
+            "params[image_url]": params.get('image_url'),
+            "params[body]": params.get('body'),
+            "params[background_color]": params.get('background_color'),
+            "params[body_color]": params.get('body_color'),
+            "params[title_color]": params.get('title_color')
         }
         response = self.request.post(url, data=data)
         return response
