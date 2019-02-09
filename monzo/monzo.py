@@ -162,6 +162,7 @@ class Monzo(object):
         url = "{0}/webhooks".format(self.API_URL)
         data = {'account_id': account_id, 'url': webhook_url}
         response = self.oauth_session.make_request(url, data=data)
+        return response
 
     def register_attachment(self, transaction_id, file_url, file_type):
         """Attaches an image to a transaction. (https://monzo.com/docs/#register-attachment)
@@ -189,7 +190,6 @@ class Monzo(object):
         data = {'id': attachment_id}
         response = self.oauth_session.make_request(url, data=data)
         return response
-
 
     def create_feed_item(self, account_id, feed_type, url, params):
         """Creates a feed item. (https://monzo.com/docs/#create-feed-item)
