@@ -238,7 +238,7 @@ class Monzo(object):
             "params[body_color]": params.get('body_color'),
             "params[title_color]": params.get('title_color')
         }
-        response = self.request.post(url, data=data)
+        response = self.oauth_session.make_request(url, data=data)
         return response
 
 
