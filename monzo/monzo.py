@@ -5,6 +5,9 @@ HTTP calls to Monzo's API endpoints.
 """
 
 from monzo.auth import MonzoOAuth2Client
+from datetime import datetime
+from functools import partial
+
 import string
 import random
 
@@ -75,15 +78,46 @@ class Monzo(object):
             raise LookupError('There are no accounts associated with this user.')
         return accounts['accounts'][0]
 
-    def get_transactions(self, account_id):
+    def get_transactions(self, account_id, before=None, since=None, limit=None):
         """Get all transactions of a given account. (https://monzo.com/docs/#list-transactions)
 
            :param account_id: The unique identifier for the account which the transactions belong to.
+           :param before: A datetime representing the time of the earliest transaction to return (Can't take transaction id as input)
+           :param since: A datetime representing the time of the earliest transaction to return. (Can also take a transaction id)
+           :param limit: The maximum number of transactions to return (Max = 100)
            :rtype: A collection of transaction objects for specific user.
         """
+        if isinstance(before, datetime):
+            before = before.isoformat() + 'Z'
+        if isinstance(since, datetime):
+            since = since.isoformat() + 'Z'
         url = "{0}/transactions".format(self.API_URL)
-        params = {'expand[]': 'merchant', 'account_id': account_id}
+        params = {
+            'expand[]': 'merchant',
+            'account_id': account_id,
+            'before': before,
+            'since': since,
+            'limit': limit,
+            }
         response = self.oauth_session.make_request(url, params=params)
+        if any([before,since,limit]):
+            last_transaction_id = response['transactions'][-1]['id']
+            next_page = partial(self.get_transactions,
+                                account_id,
+                                before=before,
+                                since = last_transaction_id,
+                                limit = limit)
+            response.update({'next_page':next_page})
+        
+        return response
+    
+    def get_transaction(self, transaction_id):
+        """Retrieve data for a specific transaction. (https://docs.monzo.com/#retrieve-transaction)
+           :param transaction_id: The unique identifier for the transaction for which data should be retrieved for.
+           :rtype: A dictionary containing the data for the specified transaction_id.
+        """
+        url = "{0}/transactions/{1}".format(self.API_URL, transaction_id)
+        response = self.oauth_session.make_request(url)
         return response
 
     def get_balance(self, account_id):
@@ -153,6 +187,7 @@ class Monzo(object):
         url = "{0}/webhooks".format(self.API_URL)
         data = {'account_id': account_id, 'url': webhook_url}
         response = self.oauth_session.make_request(url, data=data)
+        return response
 
     def register_attachment(self, transaction_id, file_url, file_type):
         """Attaches an image to a transaction. (https://monzo.com/docs/#register-attachment)
@@ -181,7 +216,6 @@ class Monzo(object):
         response = self.oauth_session.make_request(url, data=data)
         return response
 
-
     def create_feed_item(self, account_id, feed_type, url, params):
         """Creates a feed item. (https://monzo.com/docs/#create-feed-item)
 
@@ -197,9 +231,12 @@ class Monzo(object):
             'account_id': account_id,
             'type': feed_type,
             'url': url,
-            "params[title]": params['title'],
-            "params[image_url]": params['image_url'],
-            "params[body]": params['body']
+            "params[title]": params.get('title'),
+            "params[image_url]": params.get('image_url'),
+            "params[body]": params.get('body'),
+            "params[background_color]": params.get('background_color'),
+            "params[body_color]": params.get('body_color'),
+            "params[title_color]": params.get('title_color')
         }
         response = self.request.post(url, data=data)
         return response
