@@ -270,7 +270,7 @@ class Monzo(object):
             'dedupe_id': unique_string
         }
 
-        response = self.oauth_session.make_request(url, data=data)
+        response = self.oauth_session.make_request(url, data=data, method='PUT')
         return response
 
     def withdraw_from_pot(self, account_id, pot_id, amount_in_pennies):
