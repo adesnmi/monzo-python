@@ -176,6 +176,7 @@ class Monzo(object):
     def delete_all_webhooks(self, account_id):
         """Removes all webhooks associated with the specified account, if it exists.
 
+           :param account_id: The unique identifier for the account which all webhooks will be removed from.
            :rtype: None
         """
         webhooks = self.get_webhooks(account_id)
