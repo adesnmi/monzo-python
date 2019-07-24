@@ -1,4 +1,5 @@
 astroid==1.4.7
+black==18.9b0
 click==6.6
 isort==4.2.5
 lazy-object-proxy==1.2.2

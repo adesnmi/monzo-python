@@ -11,6 +11,7 @@ from functools import partial
 import string
 import random
 
+
 class Monzo(object):
     """The class representation of Monzo's API endpoints.
 
@@ -24,7 +25,9 @@ class Monzo(object):
        :param access_token: The access token to authorise API calls.
     """
 
-    API_URL = 'https://api.monzo.com/' #: (str): A representation of the current Monzo api url.
+    API_URL = (
+        "https://api.monzo.com/"
+    )  #: (str): A representation of the current Monzo api url.
 
     def __init__(self, access_token):
         """Starts an OAuth session with just an access token
@@ -33,9 +36,7 @@ class Monzo(object):
 
            :param access_token: A valid access token from https://developers.monzo.com/
         """
-        self.oauth_session = MonzoOAuth2Client(None,
-                                               None,
-                                               access_token=access_token)
+        self.oauth_session = MonzoOAuth2Client(None, None, access_token=access_token)
 
     @classmethod
     def from_oauth_session(cls, oauth):
@@ -74,9 +75,9 @@ class Monzo(object):
 
         """
         accounts = self.get_accounts()
-        if len(accounts['accounts']) <= 0:
-            raise LookupError('There are no accounts associated with this user.')
-        return accounts['accounts'][0]
+        if len(accounts["accounts"]) <= 0:
+            raise LookupError("There are no accounts associated with this user.")
+        return accounts["accounts"][0]
 
     def get_transactions(self, account_id, before=None, since=None, limit=None):
         """Get all transactions of a given account. (https://monzo.com/docs/#list-transactions)
@@ -88,29 +89,31 @@ class Monzo(object):
            :rtype: A collection of transaction objects for specific user.
         """
         if isinstance(before, datetime):
-            before = before.isoformat() + 'Z'
+            before = before.isoformat() + "Z"
         if isinstance(since, datetime):
-            since = since.isoformat() + 'Z'
+            since = since.isoformat() + "Z"
         url = "{0}/transactions".format(self.API_URL)
         params = {
-            'expand[]': 'merchant',
-            'account_id': account_id,
-            'before': before,
-            'since': since,
-            'limit': limit,
-            }
+            "expand[]": "merchant",
+            "account_id": account_id,
+            "before": before,
+            "since": since,
+            "limit": limit,
+        }
         response = self.oauth_session.make_request(url, params=params)
-        if any([before,since,limit]):
-            last_transaction_id = response['transactions'][-1]['id']
-            next_page = partial(self.get_transactions,
-                                account_id,
-                                before=before,
-                                since = last_transaction_id,
-                                limit = limit)
-            response.update({'next_page':next_page})
-        
+        if any([before, since, limit]):
+            last_transaction_id = response["transactions"][-1]["id"]
+            next_page = partial(
+                self.get_transactions,
+                account_id,
+                before=before,
+                since=last_transaction_id,
+                limit=limit,
+            )
+            response.update({"next_page": next_page})
+
         return response
-    
+
     def get_transaction(self, transaction_id):
         """Retrieve data for a specific transaction. (https://docs.monzo.com/#retrieve-transaction)
            :param transaction_id: The unique identifier for the transaction for which data should be retrieved for.
@@ -128,7 +131,7 @@ class Monzo(object):
 
         """
         url = "{0}/balance".format(self.API_URL)
-        params = {'account_id': account_id}
+        params = {"account_id": account_id}
         response = self.oauth_session.make_request(url, params=params)
         return response
 
@@ -140,7 +143,7 @@ class Monzo(object):
 
         """
         url = "{0}/webhooks".format(self.API_URL)
-        params = {'account_id': account_id}
+        params = {"account_id": account_id}
         response = self.oauth_session.make_request(url, params=params)
         return response
 
@@ -151,9 +154,9 @@ class Monzo(object):
            :rtype: A Dictionary representation of the first webhook belonging to an account, if it exists.
         """
         webhooks = self.get_webhooks(account_id)
-        if len(webhooks['webhooks']) <= 0:
-            raise LookupError('There are no webhooks associated with the account.')
-        return webhooks['webhooks'][0]
+        if len(webhooks["webhooks"]) <= 0:
+            raise LookupError("There are no webhooks associated with the account.")
+        return webhooks["webhooks"][0]
 
     def delete_webhook(self, webhook_id):
         """Deletes the a specified webhook. (https://monzo.com/docs/#deleting-a-webhook)
@@ -162,7 +165,7 @@ class Monzo(object):
            :rtype: An empty Dictionary, if the deletion was successful.
         """
         url = "{0}/webhooks/{1}".format(self.API_URL, webhook_id)
-        response = self.oauth_session.make_request(url, method='DELETE')
+        response = self.oauth_session.make_request(url, method="DELETE")
         return response
 
     def delete_all_webhooks(self, account_id):
@@ -172,8 +175,8 @@ class Monzo(object):
            :rtype: None
         """
         webhooks = self.get_webhooks(account_id)
-        for webhook in webhooks['webhooks']:
-            self.delete_webhook(webhook['id'])
+        for webhook in webhooks["webhooks"]:
+            self.delete_webhook(webhook["id"])
 
     def register_webhook(self, webhook_url, account_id):
         """Registers a webhook. (https://monzo.com/docs/#registering-a-webhook)
@@ -184,7 +187,7 @@ class Monzo(object):
            :rtype: Registers a webhook to an account.
         """
         url = "{0}/webhooks".format(self.API_URL)
-        data = {'account_id': account_id, 'url': webhook_url}
+        data = {"account_id": account_id, "url": webhook_url}
         response = self.oauth_session.make_request(url, data=data)
         return response
 
@@ -198,10 +201,12 @@ class Monzo(object):
            :rtype: Dictionary representation of the attachment that was just registered.
         """
         url = "{0}/attachment/register".format(self.API_URL)
-        data = {'external_id': transaction_id,
-              'file_url': file_url,
-              'file_type': file_type}
-        response = self.oauth_session.make_request(url,data=data)
+        data = {
+            "external_id": transaction_id,
+            "file_url": file_url,
+            "file_type": file_type,
+        }
+        response = self.oauth_session.make_request(url, data=data)
         return response
 
     def deregister_attachment(self, attachment_id):
@@ -211,7 +216,7 @@ class Monzo(object):
             :rtype: An empty Dictionary, if the deregistration was successful.
         """
         url = "{0}/attachment/deregister".format(self.API_URL)
-        data = {'id': attachment_id}
+        data = {"id": attachment_id}
         response = self.oauth_session.make_request(url, data=data)
         return response
 
@@ -227,19 +232,18 @@ class Monzo(object):
         """
         url = "{0}/feed".format(self.API_URL)
         data = {
-            'account_id': account_id,
-            'type': feed_type,
-            'url': url,
-            "params[title]": params.get('title'),
-            "params[image_url]": params.get('image_url'),
-            "params[body]": params.get('body'),
-            "params[background_color]": params.get('background_color'),
-            "params[body_color]": params.get('body_color'),
-            "params[title_color]": params.get('title_color')
+            "account_id": account_id,
+            "type": feed_type,
+            "url": url,
+            "params[title]": params.get("title"),
+            "params[image_url]": params.get("image_url"),
+            "params[body]": params.get("body"),
+            "params[background_color]": params.get("background_color"),
+            "params[body_color]": params.get("body_color"),
+            "params[title_color]": params.get("title_color"),
         }
         response = self.request.post(url, data=data)
         return response
-
 
     def get_pots(self):
         """Get all pots for a user. (https://monzo.com/docs/#list-pots)
@@ -251,7 +255,6 @@ class Monzo(object):
         response = self.oauth_session.make_request(url)
         return response
 
-
     def deposit_into_pot(self, pot_id, account_id, amount_in_pennies):
         """Move money from an account into a pot. (https://monzo.com/docs/#deposit-into-a-pot)
 
@@ -262,14 +265,14 @@ class Monzo(object):
             :rtype: A dictionary containing information on the pot that was updated.
         """
         url = "{0}/pots/{1}/deposit".format(self.API_URL, pot_id)
-        unique_string = ''.join(random.choice(string.ascii_letters) for i in range(15))
+        unique_string = "".join(random.choice(string.ascii_letters) for i in range(15))
         data = {
-            'source_account_id': account_id,
-            'amount': amount_in_pennies,
-            'dedupe_id': unique_string
+            "source_account_id": account_id,
+            "amount": amount_in_pennies,
+            "dedupe_id": unique_string,
         }
 
-        response = self.oauth_session.make_request(url, data=data, method='PUT')
+        response = self.oauth_session.make_request(url, data=data, method="PUT")
         return response
 
     def withdraw_from_pot(self, account_id, pot_id, amount_in_pennies):
@@ -282,16 +285,15 @@ class Monzo(object):
             :rtype: A dictionary containing information on the pot that was updated.
         """
         url = "{0}/pots/{1}/withdraw".format(self.API_URL, pot_id)
-        unique_string = ''.join(random.choice(string.ascii_letters) for i in range(15))
+        unique_string = "".join(random.choice(string.ascii_letters) for i in range(15))
         data = {
-            'destination_account_id': account_id,
-            'amount': amount_in_pennies,
-            'dedupe_id': unique_string
+            "destination_account_id": account_id,
+            "amount": amount_in_pennies,
+            "dedupe_id": unique_string,
         }
 
-        response = self.oauth_session.make_request(url, data=data, method='PUT')
+        response = self.oauth_session.make_request(url, data=data, method="PUT")
         return response
-
 
     def update_transaction_metadata(self, transaction_id, key, value):
         """Update a metadata key value pair for a given transaction. (https://monzo.com/docs/#annotate-transaction)
@@ -301,8 +303,8 @@ class Monzo(object):
            :rtype: The updated transaction object.
         """
         url = "{0}/transactions/{1}".format(self.API_URL, transaction_id)
-        data = {'metadata['+key+']': value}
-        response = self.oauth_session.make_request(url, data=data, method='PATCH')
+        data = {"metadata[" + key + "]": value}
+        response = self.oauth_session.make_request(url, data=data, method="PATCH")
         return response
 
     def update_transaction_notes(self, transaction_id, notes):
@@ -311,4 +313,4 @@ class Monzo(object):
            :param notes: The new notes to be attached to the transaction.
            :rtype: The updated transaction object.
         """
-        return self.update_transaction_metadata(transaction_id, 'notes', notes)
+        return self.update_transaction_metadata(transaction_id, "notes", notes)
