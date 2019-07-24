@@ -313,3 +313,42 @@ class Monzo(object):
            :rtype: The updated transaction object.
         """
         return self.update_transaction_metadata(transaction_id, 'notes', notes)
+
+    def create_receipt(self, receipt, external_id):
+        """Create a receipt for a given transaction. (https://docs.monzo.com/#create-receipt)
+           :param receipt: The entire receipt structure. (https://docs.monzo.com/#receipts)
+           Useful links for receipt structure:
+            * (https://docs.monzo.com/#receipt-items)
+            * (https://docs.monzo.com/#receipt-taxes)
+            * (https://docs.monzo.com/#receipt-payments)
+            * (https://docs.monzo.com/#receipt-merchant)
+           :param external_id: The external ID for the receipt.
+           :rtype: A Dictionary object containing the receipt object you "PUT"; repeated back to you.
+        """
+        url = "{0}/transaction-receipts".format(self.API_URL)
+        # Add external_id to the receipt object.
+        receipt["external_id"] = external_id
+        response = self.oauth_session.make_request(url, json=receipt, method='PUT')
+        return response
+
+    def retrieve_receipt(self, external_id):
+        """Retrieve a receipt for a given transaction by querying its external_id. (https://docs.monzo.com/#retrieve-receipt)
+           :param external_id: The external_id of the receipt.
+           :rtype: The receipt object for the given external_id.
+        """
+        url = "{0}/transaction-receipts".format(self.API_URL)
+        params = {"external_id": external_id}
+        response = self.oauth_session.make_request(url, params=params)
+        return response
+    
+    def delete_receipt(self, external_id):
+        """Delete a receipt for a given transaction by querying its external_id. (https://docs.monzo.com/#delete-receipt)
+           :param external_id: The external_id of the receipt.
+           :rtype: An empty Dictionary, if the receipt deletion was successful.
+        """
+        url = "{0}/transaction-receipts".format(self.API_URL)
+        params = {'external_id': external_id}
+        response = self.oauth_session.make_request(url, params=params, method='DELETE')
+        return response
+
+        
